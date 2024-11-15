@@ -95,29 +95,112 @@ Tailwind is a library that helps manage the impedance mismatch between HTML (bot
 > ```
 
 > 2. Follow on-screen menu:
+>```
 > - ✔ The path [...] does not contain a package.json file. Would you like to start a new Next.js project? …                                                       yes
 > - ✔ What is your project named? …                              core-ui
 > - ? Which style would you like to use:                         New York
 > - ? Which color would you like to use as the base color?:      Slate
 > - ✔ Would you like to use CSS variables for theming? …         yes
+>```
+>
+>> <small>Alternatively, the STANDARD NextJS CLI command and menu are:
+>> ```bash
+>> cd [project root]
+>> npx create-next-app@latest
+>> ```
+>>
+>> ```
+>> -> ✔ What is your project named? …                        core_ui
+>>    ✔ Would you like to use TypeScript? …                  Yes
+>>    ✔ Would you like to use ESLint? …                      Yes
+>>    ✔ Would you like to use Tailwind CSS? …                Yes
+>> -> ✔ Would you like your code inside a `src/` directory?… No
+>>    ✔ Would you like to use App Router? (recommended) …    Yes
+>>    ✔ Would you like to use Turbopack for next dev? …      No
+>>    ✔ Would you like to customize the import alias (@/* by default)? … No
+>> ```
+>> </small>
 
-> <small>Alternatively, the STANDARD NextJS CLI command and menu are:
-> ```bash
-> cd [project root]
-> npx create-next-app@latest
+> 3. Optional: Review the files created
 > ```
->```
-> -> ✔ What is your project named? …                        core_ui
->    ✔ Would you like to use TypeScript? …                  Yes
->    ✔ Would you like to use ESLint? …                      Yes
->    ✔ Would you like to use Tailwind CSS? …                Yes
-> -> ✔ Would you like your code inside a `src/` directory?… No
->    ✔ Would you like to use App Router? (recommended) …    Yes
->    ✔ Would you like to use Turbopack for next dev? …      No
->    ✔ Would you like to customize the import alias (@/* by default)? … No
->```
-> </small>
+> .
+> ├── .eslintrc.json
+> ├── .gitignore
+> ├── README.md
+> ├── app
+> │   ├── favicon.ico
+> │   ├── fonts
+> │   ├── globals.css
+> │   ├── layout.tsx
+> │   └── page.tsx
+> ├── components.json
+> ├── lib
+> │   └── utils.ts
+> ├── next-env.d.ts
+> ├── next.config.mjs
+> ├── node_modules
+> ├── package-lock.json
+> ├── package.json
+> ├── postcss.config.mjs
+> ├── tailwind.config.ts
+> └── tsconfig.json
+> ```
+>
+>> Key Files/Folders: 
+>>> Project setup 
+>>> - `package.json`: scripts (build/start/run app in dev/test mode), dependencies etc.
+>>> - `next.config.mjs`: NextJS configurations. Empty for now, but allows us to configure our NextJS application
+>>
+>>> Language Configurations
+>>> - `tsconfig.json`: Typescript configuration
+>>> - `eslintrc.json`: Linting rules (`next/core-web-vitals` is a set of linting rules; these rules can be extended/modified here) 
+>>>
+>>> CSS configurations
+>>> - `app/globals.css`: sets default CSS for the starter components
+>>> - `tailwind.config.ts`: <br>
+>>> Tailwind (styling) configurations - tells the styling frameworks wwhere to look for components, set global styles (themes), add plugins, etc. 
+>>> - `postcss.config.js`: <br>
+>>> ?
+>>
+>>> **The application (app/)**
+>>> - <span style="color:red">The app router components: `layout.tsx`, `page.tsx`. 
+>>>> `page.tsx`: <br>Pages are the public UI that is displayed when a user browses to the route corresponding to the path of the `page.tsx` file. (*NB Not every route needs to have a page - in some cases we may want to have a route that is only accessible internally and this can be achieved by implementing the route folder but not having a `page.tsx`*).<br> 
+>>>
+>>>> `layout.tsx`: <br>**Layouts are UI's that are shared between multiple routes. When we navigate between routes the layout components (including their STATE) gets preserved and they dont re-render.** Layout component contain a children prop which automatically wraps the `page.tsx` in the same/subfolders and/or other layouts. Within Layouts, pages are `{children}`. (*NB: This is a key difference between the new "app router" and "pages router" it replaces: due to the existance of the `layout.tsx` files, the folder structure of the app router is governed by shared layouts rather than functional similarities (although pages that are similar at a functional level often also share a layout... In order to design your API properly you need to understand the through process behind this decision!)*</span> 
+>>> - The global CSS styles (see `app/globals.css` above)
+>> 
+>> <br>
+>>
+>> Key differences to conventional NextJS (`npx create-next-app@latest`) boilerplate project
+>>> 
+>>> 1. Absence of a `.next/` folder
+>>> 2. Addition of a `components.json` file
+>>> 3. Addition of a `lib/utils.ts` folder/file
+>>> 4. Absence of a `public\` folder (Any assets (favicon etc.) were stored here.)
 
+
+> 4. Optional: Test-run the boilerplate project
+>
+> `npm run dev`
+
+> 5. Recommended: Clean up boilerplate code
+> 
+>> `app/page.tsx`<br>
+>> Remove all of the boilerplate code inside the return () (you can add a placeholder so something is displayed).
+>
+>> `app/globals.css`<br>
+>> These presumably implement the styling we requested ("New York" and "Slate") It therefore makes sense to keep these - but if you want to change the styles you can remove everything apart from the Tailwind directives at the top (*These are needed to integrate Tailwind in our project*). 
+>>> ```
+>>> @tailwind base;
+>>> @tailwind components;
+>>> @tailwind utilities;
+>>> ```
+>> NB When setting up a NextJS project without ShadCN we typically remove all the global CSS (apart from Tailwind directives)
+
+##### Note: Adding components using ShadCN
+
+
+##### Note: 
 
 ## [*Section*]
 
