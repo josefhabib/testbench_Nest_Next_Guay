@@ -250,8 +250,46 @@ Next, as a proof of concept, we explore the workflow to add a new route in NextJ
 >>
 >>> If the theme does not get applied, make sure the app/layout.tsx is set up correctly
 
+---
+---
+---
+
+## Backend Server (NextJS, PostgreSQL {incl. postgres.app, pgAdmin, psql, dBeaver})
+
+##### Background & Motivation
+
+In the previous section we implemented a simple full stack web UI. Since our application is meant to scale, the back end of this full stack web app will NOT be used for business logic - the web app will only be used for the UI. Instead, the business logic will be implemented on a dedicated server that we will implement using NestJS. 
+
+> <div style="color:red">**NOTE: NestJS back end vs NextJS back end**
+> In order to keep our architecture clean, we need to clearly delineate and distinguish between the roles of the NestJS back end server and the NextJS back end server. The NextJS will handle "***Server Actoins***" that have to do with rendering etc the UI. The NestJS back end server, on the other hand, will deal with business logic (e.g. Auth, PKDB etc.), data persistence, etc.
+> </div>
+
+##### Purpose & Scope
+
+To set up the central back end application server. This includes:
+1. Instantiating a NestJS project
+2. Implementing a data persistence layer (i.e. Postgres Database; Prisma ORM; Schema/Migrations etc)
+3. Implementing services and integrating them with the Web App  
+-  3.1 Auth Service
+
+
+##### Note: Setting up a NestJS project
+
 
 ##### Note: 
+
+
+##### Note: 
+
+
+##### Note: 
+
+
+##### Note: 
+
+---
+---
+---
 
 ## [*Section*]
 
