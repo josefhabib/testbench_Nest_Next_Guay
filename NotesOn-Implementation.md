@@ -230,8 +230,18 @@ Next, as a proof of concept, we explore the workflow to add a new route in NextJ
 > you install the login block and all associated components and stylings.
 
 
-> **Creating signup form (shadCN)**
-> 
+> **Creating & Linking remaining auth forms (signup, login, forgot password forms (shadCN)**
+> While ShadCN provides a login form "block", it does not offer blocks for sign up, or forgot password. There are 2 approaches we can take to provide them:
+> 1. Copy & modify the login form
+> 2. Use V0 to autogenerate the component/block and import. This generates a link you can use in `npx shadcn add [...]` 
+> -> See https://www.youtube.com/watch?v=IV6sChTZFLQ&pp=ygUraSBjcmVhdGVkIG15IG93biBjb21wb25lbnRzIHdpdGggc2hhZGNuIGNsbw%3D%3D
+>
+> Here, we opted for the former.
+>
+> In addition to creating the forms, we also implemented links that allow us to move to the various pages.
+
+> NB: Scope:
+> We have NOT yet implemented the underlying functionalities - ToDo's have been added.
 
 > **Apply Theme**
 >

@@ -11,16 +11,16 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
-// TODO: Implement the login functionality; 
-// TODO: Impelement signin fail message;
+// TODO: Implement the forgot password functionality
+// TODO: Add popup that an email has been sent to the user; reset password link is there - then login
 
-export function LoginForm() {
+export function ForgotPasswordForm() {
   return (
     <Card className="mx-auto max-w-sm">
       <CardHeader>
         <CardTitle className="text-2xl">Login</CardTitle>
         <CardDescription>
-          Enter your email below to login to your account
+          Enter your email below to reset your password
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -34,23 +34,14 @@ export function LoginForm() {
               required
             />
           </div>
-          <div className="grid gap-2">
-            <div className="flex items-center">
-              <Label htmlFor="password">Password</Label>
-              <Link href="/auth/forgot_password-form" className="ml-auto inline-block text-sm underline">
-                Forgot your password?
-              </Link>
-            </div>
-            <Input id="password" type="password" required />
-          </div>
           <Button type="submit" className="w-full">
-            Login
+            Reset Password
           </Button>
         </div>
         <div className="mt-4 text-center text-sm">
-          Don&apos;t have an account?{" "}
-          <Link href="/auth/signup" className="underline">
-            Sign up
+          Return to{" "}
+          <Link href="/auth/login" className="underline">
+            Log In Page
           </Link>
         </div>
       </CardContent>
