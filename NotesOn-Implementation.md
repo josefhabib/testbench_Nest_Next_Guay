@@ -244,7 +244,12 @@ Next, as a proof of concept, we explore the workflow to add a new route in NextJ
 > We have NOT yet implemented the underlying functionalities - ToDo's have been added.
 
 > **Apply Theme**
+> To apply a theme in ShadCN simply go to the theme page (https://ui.shadcn.com/themes), select the theme settings (color: blue; radius: 0.5; mode: dark) and copy to replace the existing theme into `app/globals.css` `(@layer base {:root {...)`
 >
+>> Tip:
+>>
+>>> If the theme does not get applied, make sure the app/layout.tsx is set up correctly
+
 
 ##### Note: 
 
