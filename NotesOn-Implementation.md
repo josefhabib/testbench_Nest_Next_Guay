@@ -320,8 +320,12 @@ To set up the central back end application server. This includes:
 >
 > We will rarely use the browser to interact with the back end - as the browser can only handle GET requests. Set up Postman and ensure you can make the same request.
 
-
-##### Note: 
+##### Note: Cleanup NestJS boilerplate
+Remove files we wont use in our project (but were included to allow us to check that our installation was successful):
+1. src/app.service.ts
+2. src/app.controller.ts
+3. src/app.controller.spec.ts
+4. Remove refernces to the above files in app.module.ts
 
 
 ##### Note: 
