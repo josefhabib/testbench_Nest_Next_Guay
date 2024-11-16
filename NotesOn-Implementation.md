@@ -225,7 +225,13 @@ Next, as a proof of concept, we explore the workflow to add a new route in NextJ
 
 > **Creating login form (shadCN)**
 >
-> Once our routes are available we can add components to them. ShadCN has "blocks" which are pre-built higher-order widgets like login screens that we can use right out of the box.
+> Once our routes are available we can add components to them. ShadCN has "blocks" (https://ui.shadcn.com/blocks) which are pre-built higher-order widgets like login screens that we can use right out of the box. Using the command:
+>> `npx shadcn add login-01`
+> you install the login block and all associated components and stylings.
+
+
+> **Creating signup form (shadCN)**
+> 
 
 > **Apply Theme**
 >
