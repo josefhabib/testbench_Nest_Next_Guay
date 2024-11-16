@@ -176,7 +176,7 @@ Tailwind is a library that helps manage the impedance mismatch between HTML (bot
 >>> 1. Absence of a `.next/` folder
 >>> 2. Addition of a `components.json` file
 >>> 3. Addition of a `lib/utils.ts` folder/file
->>> 4. Absence of a `public\` folder (Any assets (favicon etc.) were stored here.)
+>>> 4. Absence of a `public/` folder (Any assets (favicon etc.) were stored here.)
 
 
 > 4. Optional: Test-run the boilerplate project
@@ -197,8 +197,54 @@ Tailwind is a library that helps manage the impedance mismatch between HTML (bot
 >>> ```
 >> NB When setting up a NextJS project without ShadCN we typically remove all the global CSS (apart from Tailwind directives)
 
-##### Note: Adding components using ShadCN
+<br>
 
+##### Note: Adding a simple login form/route 
+
+Next, as a proof of concept, we explore the workflow to add a new route in NextJS, and a corresponding UI using ShadCN. Specifically we add a login form.
+
+**NB: Scope**
+> *This does NOT yet incude the auth logic - we only want to explore the creation of front ends in the NextJS-ShadCN setup* 
+
+**NB: Divergence from Tutorial**
+> *The tutorial uses MUI and emotion to implement the front end. I prefer using ShadCN and therefore have set up the project accordingly (see above). For compleness sake, the tutorial intalled the following libraies (I did not):*
+> 
+> `npm i --save @mui/material @mui/material-nextjs @emotion/react @emotion/styled @emotion/cache` 
+>
+> We then wrap our entire front end application (the "`children`" in the root level layerout.tsx) with the styling component `AppRouterCacheProvider`, `ThemeProvider` provided by `@mui/material-nextjs/v13-appRouter` to apply styles globally (theming). <br><br>
+> ShadCN uses a different approach (below): https://www.youtube.com/watch?v=LEFRcCf4ehc @7:40 
+
+**NB: Theming**
+> There are several approaches we can use to apply themes. We can create a dedicated theming component or we can use the global CSS. 
+>
+> Ideally, users should be able to select their own theme - to achieve this, if our application applies server side renering it should NOT apply themes on the server - instead the theme should be set client side. (See lesson 3 @3:00 for details.)
+
+> **Creating new routes (NextJS)**
+>
+> We will create 2 routes: the login route and the landing page route.
+
+> **Creating login form (shadCN)**
+>
+> Once our routes are available we can add components to them. ShadCN has "blocks" (https://ui.shadcn.com/blocks) which are pre-built higher-order widgets like login screens that we can use right out of the box. Using the command:
+>> `npx shadcn add login-01`
+> you install the login block and all associated components and stylings.
+
+
+> **Creating & Linking remaining auth forms (signup, login, forgot password forms (shadCN)**
+> While ShadCN provides a login form "block", it does not offer blocks for sign up, or forgot password. There are 2 approaches we can take to provide them:
+> 1. Copy & modify the login form
+> 2. Use V0 to autogenerate the component/block and import. This generates a link you can use in `npx shadcn add [...]` 
+> -> See https://www.youtube.com/watch?v=IV6sChTZFLQ&pp=ygUraSBjcmVhdGVkIG15IG93biBjb21wb25lbnRzIHdpdGggc2hhZGNuIGNsbw%3D%3D
+>
+> Here, we opted for the former.
+>
+> In addition to creating the forms, we also implemented links that allow us to move to the various pages.
+
+> NB: Scope:
+> We have NOT yet implemented the underlying functionalities - ToDo's have been added.
+
+> **Apply Theme**
+>
 
 ##### Note: 
 
