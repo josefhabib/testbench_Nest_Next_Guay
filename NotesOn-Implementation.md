@@ -275,6 +275,20 @@ To set up the central back end application server. This includes:
 
 ##### Note: Setting up a NestJS project
 
+> **Install NestJS CLI (globally)**
+> 
+> `npm i -g @nestjs/cli@latest`
+>
+> Note: I dont like global installs. I would typ do this in a devcontainer, but to keep things simple here I'll just follow this recommended instruction (<span style="background-color:red">Uninstall after this project!</span>)
+
+> **Create a new NestJS project**
+>
+> 1. Create a new project: `nest g core-be`
+> 2. Select package manager: npm
+> 3. cd into the project and review boilerplate project.
+
+
+
 
 ##### Note: 
 
