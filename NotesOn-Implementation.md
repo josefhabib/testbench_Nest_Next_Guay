@@ -176,7 +176,7 @@ Tailwind is a library that helps manage the impedance mismatch between HTML (bot
 >>> 1. Absence of a `.next/` folder
 >>> 2. Addition of a `components.json` file
 >>> 3. Addition of a `lib/utils.ts` folder/file
->>> 4. Absence of a `public\` folder (Any assets (favicon etc.) were stored here.)
+>>> 4. Absence of a `public/` folder (Any assets (favicon etc.) were stored here.)
 
 
 > 4. Optional: Test-run the boilerplate project
@@ -197,8 +197,38 @@ Tailwind is a library that helps manage the impedance mismatch between HTML (bot
 >>> ```
 >> NB When setting up a NextJS project without ShadCN we typically remove all the global CSS (apart from Tailwind directives)
 
-##### Note: Adding components using ShadCN
+<br>
 
+##### Note: Adding a simple login form/route 
+
+Next, as a proof of concept, we explore the workflow to add a new route in NextJS, and a corresponding UI using ShadCN. Specifically we add a login form.
+
+**NB: Scope**
+> *This does NOT yet incude the auth logic - we only want to explore the creation of front ends in the NextJS-ShadCN setup* 
+
+**NB: Divergence from Tutorial**
+> *The tutorial uses MUI and emotion to implement the front end. I prefer using ShadCN and therefore have set up the project accordingly (see above). For compleness sake, the tutorial intalled the following libraies (I did not):*
+> 
+> `npm i --save @mui/material @mui/material-nextjs @emotion/react @emotion/styled @emotion/cache` 
+>
+> We then wrap our entire front end application (the "`children`" in the root level layerout.tsx) with the styling component `AppRouterCacheProvider`, `ThemeProvider` provided by `@mui/material-nextjs/v13-appRouter` to apply styles globally (theming). <br><br>
+> ShadCN uses a different approach (below): https://www.youtube.com/watch?v=LEFRcCf4ehc @7:40 
+
+**NB: Theming**
+> There are several approaches we can use to apply themes. We can create a dedicated theming component or we can use the global CSS. 
+>
+> Ideally, users should be able to select their own theme - to achieve this, if our application applies server side renering it should NOT apply themes on the server - instead the theme should be set client side. (See lesson 3 @3:00 for details.)
+
+> **Creating new routes (NextJS)**
+>
+> We will create 2 routes: the login route and the landing page route.
+
+> **Creating login form (shadCN)**
+>
+> Once our routes are available we can add components to them. ShadCN has "blocks" which are pre-built higher-order widgets like login screens that we can use right out of the box.
+
+> **Apply Theme**
+>
 
 ##### Note: 
 
