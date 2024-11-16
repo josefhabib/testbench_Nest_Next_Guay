@@ -250,8 +250,85 @@ Next, as a proof of concept, we explore the workflow to add a new route in NextJ
 >>
 >>> If the theme does not get applied, make sure the app/layout.tsx is set up correctly
 
+---
+---
+---
+
+## Backend Server (NextJS, PostgreSQL {incl. postgres.app, pgAdmin, psql, dBeaver})
+
+##### Background & Motivation
+
+In the previous section we implemented a simple full stack web UI. Since our application is meant to scale, the back end of this full stack web app will NOT be used for business logic - the web app will only be used for the UI. Instead, the business logic will be implemented on a dedicated server that we will implement using NestJS. 
+
+> <div style="color:red">**NOTE: NestJS back end vs NextJS back end**
+> In order to keep our architecture clean, we need to clearly delineate and distinguish between the roles of the NestJS back end server and the NextJS back end server. The NextJS will handle "***Server Actoins***" that have to do with rendering etc the UI. The NestJS back end server, on the other hand, will deal with business logic (e.g. Auth, PKDB etc.), data persistence, etc.
+> </div>
+
+##### Purpose & Scope
+
+To set up the central back end application server. This includes:
+1. Instantiating a NestJS project
+2. Implementing a data persistence layer (i.e. Postgres Database; Prisma ORM; Schema/Migrations etc)
+3. Implementing services and integrating them with the Web App  
+-  3.1 Auth Service
+
+
+##### Note: Setting up a NestJS project
+
+> **Install NestJS CLI (globally)**
+> 
+> `npm i -g @nestjs/cli@latest`
+>
+> Note: I dont like global installs. I would typ do this in a devcontainer, but to keep things simple here I'll just follow this recommended instruction (<span style="background-color:red">Uninstall after this project!</span>)
+
+> **Create a new NestJS project**
+>
+> 1. Create a new project: `nest g core-be`
+> 2. Select package manager: npm
+>> <div style="color:red">WARNING: <br>
+>> This will set up a new project, complete with its own git repo (i.e. you cannot use your exisitng repo to VC this module.)<br><br>You can, of course, also create the NestJs app as a separate project (and e.g. submodule it)</div>
+> 3. cd into the project and review boilerplate project.
+
+
+##### Note: Review the boilerplate
+
+> **src directory**
+>> **main.ts**<br>
+>> The application entry point: it defines a bootstrap function that, in turn, sends the AppModule (below) to the NestJS factory to spin up the back end application, and then listens on a port. It then calls the bootstrap function to execute it.
+>>
+>> **NB: change the port (e.g. to 3001) since we already have NextJS listening on port 3000.**
+> 
+>> **app.module**<br>
+>> The app module is the integration point where we import all the dependencies within our app (i.e. construct app from constituents).
+> 
+>> **Others**<br>
+>> The other files are not needed for now (can be deleted)
+
+>> various config files <br>
+>> *Not covered here in detail*
+
+##### Note: Test drive the application 
+>
+> - cd into the core-be directory 
+> - `npm run start:dev`
+>
+> If the application has been set up correctly you should now get a "Hello world" when you browse to http://localhost:3001
+>
+><br>
+>
+> RECOMMENDED: Postman
+>
+> We will rarely use the browser to interact with the back end - as the browser can only handle GET requests. Set up Postman and ensure you can make the same request.
+
 
 ##### Note: 
+
+
+##### Note: 
+
+---
+---
+---
 
 ## [*Section*]
 
