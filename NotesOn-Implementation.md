@@ -292,8 +292,33 @@ To set up the central back end application server. This includes:
 
 ##### Note: Review the boilerplate
 
+> **src directory**
+>> **main.ts**<br>
+>> The application entry point: it defines a bootstrap function that, in turn, sends the AppModule (below) to the NestJS factory to spin up the back end application, and then listens on a port. It then calls the bootstrap function to execute it.
+>>
+>> **NB: change the port (e.g. to 3001) since we already have NextJS listening on port 3000.**
+> 
+>> **app.module**<br>
+>> The app module is the integration point where we import all the dependencies within our app (i.e. construct app from constituents).
+> 
+>> **Others**<br>
+>> The other files are not needed for now (can be deleted)
 
-##### Note: 
+>> various config files <br>
+>> *Not covered here in detail*
+
+##### Note: Test drive the application 
+>
+> - cd into the core-be directory 
+> - `npm run start:dev`
+>
+> If the application has been set up correctly you should now get a "Hello world" when you browse to http://localhost:3001
+>
+><br>
+>
+> RECOMMENDED: Postman
+>
+> We will rarely use the browser to interact with the back end - as the browser can only handle GET requests. Set up Postman and ensure you can make the same request.
 
 
 ##### Note: 
