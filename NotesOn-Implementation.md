@@ -285,12 +285,12 @@ To set up the central back end application server. This includes:
 >
 > 1. Create a new project: `nest g core-be`
 > 2. Select package manager: npm
+>> <div style="color:red">WARNING: <br>
+>> This will set up a new project, complete with its own git repo (i.e. you cannot use your exisitng repo to VC this module.)<br><br>You can, of course, also create the NestJs app as a separate project (and e.g. submodule it)</div>
 > 3. cd into the project and review boilerplate project.
 
 
-
-
-##### Note: 
+##### Note: Review the boilerplate
 
 
 ##### Note: 
