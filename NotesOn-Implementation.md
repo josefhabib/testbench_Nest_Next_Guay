@@ -607,7 +607,48 @@ The scope of this module is limited to using a readymade module (rather than imp
 >>> }
 >>> bootstrap();
 
+---
+---
+---
 
+## [**Note: Setting up a (Pino) Logger Service**]
+
+##### Background & Motivation
+
+Logging is the process of recording information about an application's execution, which 
+can include error messages, status updates, and other significant events. 
+
+Logging was implemented to enhance debugging, monitoring, and troubleshooting capabilities. 
+It provides detailed records of application behavior, user interactions, and system events, 
+allowing developers to quickly identify and resolve issues. Logging also aids in performance 
+analysis, security auditing, and compliance requirements by capturing relevant information 
+about the application's operation over time.
+
+We use the Pino library for logging. Pino is a fast, low-overhead logging library for Node.js 
+applications. It provides a simple API for logging messages, errors, and other information, 
+which can be crucial for debugging and monitoring applications. Pino is designed to be highly 
+performant, making it suitable for production environments where logging overhead needs to be 
+minimal. By using Pino, we can ensure that our application logs are structured, easily searchable, 
+and can be integrated with various log management tools for better observability and analysis.
+
+For more information, visit the [Pino documentation](https://getpino.io/#/).
+
+
+##### Purpose & Scope
+
+- Install Pino
+- Integrate Pino into our NestJS project
+
+
+
+
+##### Note: ...
+
+
+##### Note: ...
+
+
+##### Note: ...
 
 ---
 ---
