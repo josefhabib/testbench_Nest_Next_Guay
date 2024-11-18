@@ -524,7 +524,16 @@ The purpose of implementing the configurations service here is twofold:
 The scope of this module is limited to using a readymade module (rather than implementing it from scratch): <span style="background-color:yellow; color:black">NestJS provides a readymade config module we can use.</span> <span style="background-color:red; color:black">However, also note that the NestJS config module works with .env files</span> (i.e. if you want to use e.g. Docker/Github/Hashicorp/etc secrets, this must be edited)
 
 
-
+##### Note: the NestJS Config Module 
+>
+> NestJS provides its own <span style="background-color:yellow; color:black">.env<span> file based config module <span style="background-color:yellow; color:black">out-of-the-box.</span>
+>
+> 
+> To install the provided config module install it: 
+>> 
+>> `npm i --save @nestjs/config`
+>>
+>
 
 
 
