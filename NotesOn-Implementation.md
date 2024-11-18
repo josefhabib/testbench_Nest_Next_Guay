@@ -346,18 +346,44 @@ To set up the central back end application server. This includes:
 >>  @Post()
 >>  createUser() {}
 >> ```
->
+
+> **Implement OBJECT & DATA Validation Targets**
+>>
+>> Upon receiving a request, the data payload will be extracted (see `@Body()` below). But before we can use it we need to:
+>> - Check that the data payload is 'valid'
+>> - Handle cases where it is NOT valid
+>> 
+>> This section deals with defining a validation target. Broadly speaking, validation can be divided into 2 main cagegories:
+>> 1. <span style="background-color:red; color:black; font-weight:bold">OBJECT Validation:</span> Checks that the extracted payload object is of the correct 'shape' (i.e. it contains all required keys; the corresponding values are of the correct type)  
+>> 2. <span style="background-color:red; color:black; font-weight:bold">DATA Validation:</span> Checks that individual values meet pre-defined criteria (e.g. passwords are long enough and have upper case, lower case, special characters; emails contain the '@' symbol etc.) 
+>> <span style="background-color:red; color:black; font-weight:bold">Data Transfer Object (DTO)</span>
+>>
+>> This section addresses how we define these (Object & Data) validation targets. For this we create a DTO folder/file in the 'users/' folder.
+>> 
+> 1. Object Validation: Create a DTO
+>> As an object validation target we implement a class definition:
+>>
+>> ```ts
+>> export class CreateUserDto {
+>>  readonly email: string;
+>>  readonly password: string;
+>>}
+>> ``` 
+>> 
+>> This defines that the incoming payload must contain an email and a password string.
+>>
 > 2. Install `class-validator` and `class-transformer`
+>> <br>
+>>
 >> `npm i --save class-validator class-transformer` 
->> Provides utility classes to validate/transform request bodies
+>>
+>> <br>
+>> For data validation we need a suite of utility classes that define application-specific validity criteria. Rather than implementing this from scratch (re-inventing the wheel) we use a 3rd party library `class-validator`. 
+>> 
+>> NB: In addition to validation functions it is common practice to also install related tools from the same 3rd party vendor (e.g. the class-transformer (for transforming text-based HTTP requests) and sometimes other (e.g. class-sanitizer) classes)
 > 
-> 3. Create a DTO 
->> The DTO provides a standard against which we can validate (using the utility classes above) the extracted payload object of the received HTTP request)
->> - create a `dto` directory
->> - create a DTO file - in this case: create-user.dto.ts
->> - create/export a class containing:
->>> - the request object attributes and types
->>> - validators
+> 3. Data Validation: edit DTO
+>> Now that we have the basic DTO definition and installed the `class-validator` library, we can decorate each DTO datapoint with (data) validity criteria; E.g.
 >>
 >>> ```ts
 >>> export class CreateUserDto {
@@ -376,6 +402,8 @@ To set up the central back end application server. This includes:
 >>> readonly password: string;
 >>> }
 >>> ``` 
+>>
+> <span style="color:aquamarine">Taking Stock: <br>*This gives us a validation target for the extracted request payload object - in the next 2 steps we extract this payload object (@Body()) and apply the validation.*</span>
 >
 > 4. Extract the request body (using the param decorator: @Body())...
 > 5. ...and set the "type" to the DTO (to trigger the validation)
@@ -385,12 +413,59 @@ To set up the central back end application server. This includes:
 >> createUser(@Body() createUserDto: CreateUserDto) {}
 >> ``` 
 
+<span style="color:aquamarine">Taking Stock: <br>*We have now recevied the HTTP request (Controller); Extracted the payload (@Body()); Defined a Validation target (DTO); and implemented the triggering of object and data validation against this target. This concludes the Controller tasks - apart from handing over the incoming request to the Service for processing - i.e. generating the HTTP response payload. This is the **business logic** part of the application.<br>Broadly speaking there can be 2 types or responses to a request: Success or Failure (Error).<br> In the following steps we implement a Service and discuss both Success and Error cases.*</span>
+
+> **Implement the Service method (stub)**
+>>
+>> Next we implement a (stub) Service method that will be called by the UserController (/users) to (ultimately) create a user "record".  
+>>
+>> ```ts
+>> import { Injectable } from '@nestjs/common';
+>> import { CreateUserDto } from './dto/create-user.dto';
+>>
+>> @Injectable()
+>> export class UsersService {
+>>  createUser(ctx: CreateUserDto) {
+>>    // TODO: Implement createUser() service method
+>>    return 'Stub: This action will add a new user';
+>>  }
+>> }
+>> ```
+>>
+>> The reason for implementing this as a stub is to provide a simplest-case for performing integration (DI) and for testing that the setup responds correctly to Validation Fails (i.e. the Error case).
+
 > **Dependency Inject the Service into the Controller**
->
+> 
+>> As a first Integration step, we now provision the Service component to the Controller via DI 
+>>
+>> ```ts
+>> @Controller('users')
+>> export class UsersController {
+>> 
+>>   // Constructor (dependency injection)
+>>   constructor(private readonly usersService: UsersService) {}
+>> 
+>>   // Individual Routes Implementations... 
+>> }
 
-> **Implement the Service method & call it from the controller**
->
+> **Trigger Service to handle request: Test Success/Error Cases**
+>> 
+>>  
+>> ```ts
+>> @Controller('users')
+>> export class UsersController {
+>> 
+>>   // Constructor (dependency injection)
+>>   constructor(private readonly usersService: UsersService) {}
+>> 
+>>    @Post()
+>>    createUser(@Body() req: CreateUserDto) {
+>>      return this.usersService.createUser(req);
+>>    }
+>> }
+>> ```
 
+> **Set up Validation "Pipe"**
 
 
 ---
