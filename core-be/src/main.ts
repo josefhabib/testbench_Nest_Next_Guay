@@ -4,6 +4,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
 // TODO: Add logging
+// TODO: Add error handling (currently, NestJS will only return a 500 error (if an exception is thrown); or a 400 error (if a validation checks fail))
 
 async function bootstrap() {
   // - Create the app
