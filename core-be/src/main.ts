@@ -20,7 +20,9 @@ async function bootstrap() {
 
   // - Add ConfigService (dynamically set run-config specific parameters from .env file)
   const configService = app.get(ConfigService);
+
+  // - Start the app (Use configService to get port from .env)
   await app.listen(configService.getOrThrow('NESTJS_CORE_PORT'));
-  // console.log('Listening on port: ', configService.getOrThrow('NESTJS_CORE_PORT'));
+  //console.log('Listening on port: ', configService.getOrThrow('NESTJS_CORE_PORT'));
 }
 bootstrap();

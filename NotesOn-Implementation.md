@@ -715,9 +715,199 @@ For more information, visit the [Pino documentation](https://getpino.io/#/).
 
 
 ##### Note: Pino-Nest Configuration (ConfigService)
+>
+><span style="background-color:red; color:black; font-weight:bold">See: "Note: Refactor to simplify **Logger Module** Configuration (app.module.ts)" below!</span>
+>
+> **Task**:<br>
+>> In the previous note we set up a simple (default parameters) Logger. However,  
+>> we want the logger to provide different levels of logging depending on the run 
+>> current configuration:
+>>> - Logging in production: Minimal logging only (<span style="background-color:yellow; color:black">'logging level': "info")</span>
+>>> - Logging in development: Log warnings/errors etc. (<span style="background-color:yellow; color:black">'logging level': "debug"; use pino-pretty to prettify output)</span>
+>
+> **Challenges**:
+>>
+>> *Challenge 1: <span style="background-color:yellow; color:black">Custom</span> Module Configuration*<br>
+>>
+>>> In the past (i.e. when setting up the UsersModule, ConfigModule) we did not have 
+>>>  provide any configuation parameters: 
+>>>  - UsersModule: Does not accept any configuration parameters
+>>>  - ConfigModule: Does accepts configuration paramters (these can be applied by 
+>>> passing a config object to the <span style="background-color:yellow; color:black">.
+>>> forRoot()</span> object (NB Other modules may use <span style="background-color:yellow; color:black">.forFeature()</span> to set 
+>>> configuration parameters) - but either way, since we used the default  
+>>> settings no parameters needed to be passed.
+>>>
+>>> <span style="background-color:yellow; color:black">When setting up the Pino 
+>>> Logger, however, configuration parameters will be needed.</span>
+>>
+>> *Challenge 2: <span style="background-color:yellow; color:black">Dynamic</span> Module Configuration*<br>
+>>>
+>>> In addition to having to provide config parameters, we need to provide different 
+>>>  config parameters depending on which run configuration is in use. However,  
+>>>  since run configurations are not known until run time (i.e. after  
+>>>  transpilation) this needs to be done <span style="background-color:yellow; color:black">'dynamically' i.e. asynchronously. </span> 
+>>>
+>>> Further, we need to use the <span style="background-color:yellow; color:black">dynamic ConfigModule (above)</span> to even determine the 
+>>>  current run configuration.
+>
+> <br>
+>
+> Strategy: <br>
+>> To address these challenges we will:
+>> 1. use an async function to supply the configuration parameters (`.forRootAsync()` replaces `.forRoot()`)
+>> 2. use the config module to dynamically (i.e. @run time) set the current run configuration
+>> 3. based on the value of the current run configuration (i.e. prod, test/dev) 
+>> set different Logger Module configuration parameters.  
+>
+> Code: 
+>> ```ts
+>> // app.module.ts
+>> import { Module } from '@nestjs/common';
+>> import { UsersModule } from './users/users.module';
+>> import { ConfigModule, ConfigService } from '@nestjs/config';
+>> import { LoggerModule } from 'nestjs-pino';
+>> 
+>> @Module({
+>>   imports: [
+>>     ConfigModule.forRoot(),
+>>     LoggerModule.forRootAsync({
+>>        imports: [ConfigModule],
+>>        inject: [ConfigService],
+>>        useFactory: (configService: ConfigService) => {
+>>          // - Get the current run configuration
+>>          const isProduction = configService.get('NODE_ENV') === 'production';
+>> 
+>>          return {
+>>            pinoHttp: {
+>>              transport: isProduction ? undefined : {
+>>                 target: 'pino-pretty',
+>>                 options: {
+>>                   singleLine: true,
+>>                 },
+>>              },
+>>              level: isProduction ? 'info' : 'debug',
+>>            },
+>>         };
+>> 
+>>       },
+>>     }),
+>>     ConfigModule.forRoot(),
+>>     UsersModule,
+>>  ],
+>>  controllers: [],
+>>  providers: [],
+>>})
+>> export class AppModule {}
+>> ```
+>> 
+>> Explanation/Elanboration:
+>>
+>> 1. Import LoggerModule from `nestjs-pino`<br>
+>> Self-explanatory 
+>>
+>> 2. @Module imports array: add LoggerModule<br>
+>>    This is to register the LoggerModule in the App (<span style="background-color:yellow; color:black">remember: importing a 
+>>    module "***registers***" it in the importing module;and registration means configuration and instantiation;</span> On the oher hand, adding ??? to the <span style="background-color:yellow; color:black">providers array provisions it via Dependency Injection</span> 
+>>
+>> 3. Use the <span style="background-color:yellow; color:black">.forRootAsync()</span> method<br>
+>> As already stated, since we will need to use the dynamic/async 
+>> <span style="background-color:yellow; color:black">
+>> ConfigService</span>) to determine the current run configuration (in order to 
+>> to set the config parameters) we use the `.forRootAsync()` method (instead of
+>> the .forRoot() we used previously). 
+>>
+>> 4. useFactory()<br>
+>> - The use of `.forRootAsync()` method enables us to use 
+>>   <span style="background-color:yellow; color:black">`useFactory`</span>.
+>> - The purpose of `useFactory` is to create the Logger Module configurations 
+>>    object
+>> - The capabiltiy of `useFactory` that makes us want to use it for this is that 
+>>    it allows us to inject async functions as args and thereby is able to 
+>>    generate this config object asynchronously.
+>><br><br>
+>>  We set the value of useFactory to a function that receives, as an ***input
+>>  arg***, <span style="background-color:yellow; color:black">any sync/async
+>>  </span> function you want to <span style="background-color:yellow; color:black">depenency inject</span> into the factory. 
+>> Here, we inject the configService <span style="background-color:green; color:black">
+>> (provisioned by ???; Instantiated in ???</span> - see next point below!)
+>>
+>> 5. DI the configService<br>
+>> Before we can pass the configService object to the useFactory function, we need 
+>> to provision it: By *locally* <span style="background-color:red; color:black">importing</span> and <span style="background-color:red; color:black">injecting</span> the ConfigService we locally provision it to the 
+>> the `LoggerModule.forRootAsync()` method via <span style="background-color:red; color:black">depenency injection</span>. 
+>> 
+>> 6. Implement the factory body <br>
+>> Now that we have DI'ed the configService object (to dynamically establish the 
+>> run config) into the `.forRootAsync()` (module registration) method...; <br>
+>> ...and passed it as an arg to the Factory-function that generates the Logger 
+>> Module config object...;<br>
+>> ...we can finally implement the function body (i.e logic that returns the
+>> config object). <br>
+>> The structure of the object being returned is:
+>> ```ts
+>> {
+>>  pinoHttp: {
+>>    transport: // set either to...: 
+>>               //
+>>               //=> production:   undefined
+>>               //=> dev/test:  
+>>               //   {
+>>               //     target: 'pino-pretty',
+>>               //     options: {
+>>               //       singleLine: true,
+>>               //     },
+>>               //   },
+>>    level:     // set either to...:  
+>>               // 
+>>               //=> production: 'info' 
+>>               //=> dev/test:   'debug',
+>>            },
+>>         }; 
+>> ```  
+>>  
+>> Transport: 
+>> - production: we dont send the output anywhere for further - no transport is needed and this property remains undefined. 
+>> - dev/test: send the output to pino-pretty, then post-process the generated output by formatting it as a single line. 
+>>
+>> Level:<br>
+>> - Log Verbosity (assumed self-explanatory).
+>
+>> ```ts
+>> // main.ts
+>> import { NestFactory } from '@nestjs/core';
+>> import ... 
+>> import { ConfigService } from '@nestjs/config';
+>> import { Logger } from 'nestjs-pino';
+>>
+>> async function bootstrap() {
+>> //...
+>>
+>> // - Logging (Pino)
+>>   const logger = app.get(Logger);
+>>   app.useLogger(logger);
+>> 
+>> // ...
+>>
+>> // - Add ConfigService (dynamically)
+>>  const configService = app.get(ConfigService);
+>>  await app.listen(configService.getOrThrow('NESTJS_CORE_PORT'));
+>> }
+>>bootstrap();
+>> ```
+>>
+>> 
+>> Explanation/Elanboration:
+>>
+>> 1. We first **import** the Logger class...
+>> 2. Then we instantiate a logger object (`app.get(Logger)`)
+>> 3. Then we execute the logger object (`app.useLogger(logger)`) (see above for 'use' methods).
 
 
-##### Note: ...
+##### Note: Refactor to simplify **Logger Module** Configuration (app.module.ts)
+
+
+
 
 ---
 ---
