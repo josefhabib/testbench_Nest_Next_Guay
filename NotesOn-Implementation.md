@@ -640,7 +640,10 @@ For more information, visit the [Pino documentation](https://getpino.io/#/).
 - Integrate Pino into our NestJS project
 
 
-
+##### Note: Pino installation
+>
+> `npm i --save nestjs-pino pino-http`
+> `npm i --save-dev pino-pretty`
 
 ##### Note: ...
 
