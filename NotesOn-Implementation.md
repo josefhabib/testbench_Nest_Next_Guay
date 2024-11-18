@@ -338,6 +338,61 @@ To set up the central back end application server. This includes:
 > - `nest g controller users`
 > - `nest g service users`
 
+> **Create a new Controller Route: Create a new User**
+>
+> 1. create a route
+>> In `src/users/users.conroller.ts`
+>> ```ts
+>>  @Post()
+>>  createUser() {}
+>> ```
+>
+> 2. Install `class-validator` and `class-transformer`
+>> `npm i --save class-validator class-transformer` 
+>> Provides utility classes to validate/transform request bodies
+> 
+> 3. Create a DTO 
+>> The DTO provides a standard against which we can validate (using the utility classes above) the extracted payload object of the received HTTP request)
+>> - create a `dto` directory
+>> - create a DTO file - in this case: create-user.dto.ts
+>> - create/export a class containing:
+>>> - the request object attributes and types
+>>> - validators
+>>
+>>> ```ts
+>>> export class CreateUserDto {
+>>> 
+>>> @IsString()
+>>> @IsNotEmpty()
+>>> @MinLength(2)
+>>> @MaxLength(50)
+>>> readonly email: string;
+>>> 
+>>> @IsString()
+>>> @IsNotEmpty()
+>>> @MinLength(8)
+>>> @MaxLength(50)
+>>> @IsStrongPassword()
+>>> readonly password: string;
+>>> }
+>>> ``` 
+>
+> 4. Extract the request body (using the param decorator: @Body())...
+> 5. ...and set the "type" to the DTO (to trigger the validation)
+>
+>> ```ts
+>> @Post()
+>> createUser(@Body() createUserDto: CreateUserDto) {}
+>> ``` 
+
+> **Dependency Inject the Service into the Controller**
+>
+
+> **Implement the Service method & call it from the controller**
+>
+
+
+
 ---
 ---
 ---
