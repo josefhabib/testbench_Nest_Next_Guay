@@ -645,10 +645,76 @@ For more information, visit the [Pino documentation](https://getpino.io/#/).
 > `npm i --save nestjs-pino pino-http`
 > `npm i --save-dev pino-pretty`
 
-##### Note: ...
+##### Note: Pino-Nest Integration (app.module)
+>
+> To integrate the Pino logger into our NestJS application we follow the 
+>  same steps as above (for the ConfigModule):
+> 1. app.module:
+>>   The app Module is our app-wide provider integration point:
+>> - import the LoggerModule from nestjs-pino
+>> - add the LoggerModule to the imports array (DI) as `.forRoot()` (i.e. make it globally available)
+>> <span style="background-color:red; color:black; font-weight:bole">NOTE: This is a WIP (See Pino-Nest
+>>  Configuration below)</span>
+>>
+>>> ```ts
+>>> // app.module.ts
+>>> // --- !!! WIP !!!  ---
+>>> import ...
+>>> import { LoggerModule } from 'nestjs-pino';
+>>>
+>>> @Module({
+>>>   imports: [
+>>>     ...
+>>>     LoggerModule.forRoot(), // WIP: To be changed (See "Pino-Nest Configuration (ConfigService)")
+>>>     ...
+>>>   ],
+>>>   controllers: [],
+>>>   providers: [],
+>>> })
+>>> export class AppModule {}
+>>> ```
+>
+> 2. main.ts
+>>   Now that we have provisioned (DI) the PinoLogger module to the root of our application we can run
+>>    it (i.e. start logging) in main.ts (i.e. when the app is started up))
+>> - Import the Logger (class) from nestjs-pino
+>> - Instantiate a logger object: `const logger = app.get(Logger)`
+>> - Run the logger object instance: `app.useLogger(logger)`
+>>
+>>> ```ts
+>>> // main.ts
+>>> import ...
+>>> import { Logger } from 'nestjs-pino';
+>>>
+>>> async function bootstrap() {
+>>> const app = await NestFactory.create(AppModule);
+>>>
+>>> const logger = app.get(Logger);
+>>> app.useLogger(logger);
+>>>
+>>> /// ...  
+>>> }
+>>> bootstrap();
+>>> ```
+>
+>> **NOTE: Where does the method `.useLogger()` come from?!**
+>> 
+>> The app object contains a number of 'use' methods:
+>> - app.useLogger
+>> - app.useGlobalPipes
+>> as well as:
+>> - app.use
+>> - app.useGlobalFilters
+>> - app.useGlobalGuards
+>> - app.useGlobalInterceptors
+>> - app.useWebSocketAdapter
+>
+> At the end of this step, Pino Logger is set up (instantiated, integrated & 
+> running) using default settings
 
 
-##### Note: ...
+
+##### Note: Pino-Nest Configuration (ConfigService)
 
 
 ##### Note: ...
