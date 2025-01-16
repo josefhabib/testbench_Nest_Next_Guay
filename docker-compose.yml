@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  postgres:
+  db-server-dev1:
     build: './db-servers/db-server-dev1'
     ports:
       - "5435:5432"
