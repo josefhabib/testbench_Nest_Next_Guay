@@ -156,5 +156,6 @@ dist
 !.vscode/launch.json
 !.vscode/extensions.json
 
-# temp directory
+# temp directories/files
 .tmp
+**/TempNote_*
