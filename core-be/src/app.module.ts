@@ -33,7 +33,6 @@ import { PrismaUsersDbModule } from './prisma_users-db/prisma_users-db.module';
     }),
     ConfigModule.forRoot(),
     UsersModule,
-    PrismaUsersDbModule,
   ],
   controllers: [],
   providers: [],
