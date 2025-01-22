@@ -6,12 +6,13 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "build": "nest build",
+    "build:dev": "dotenv -e ../../.env.development.local -- nest build",
+    "build:prod": "dotenv -e ../../.env -- nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
-    "start:dev": "nest start --watch",
-    "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/main",
+    "start:dev": "dotenv -e ../../.env.development.local -- nest start --watch",
+    "start:debug":"dotenv -e ../../.env.test.local -- nest start --debug --watch",
+    "start:prod": "dotenv -e ../../.env -- node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
     "test:watch": "jest --watch",
@@ -28,10 +29,9 @@
     "bcrypt": "^5.1.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
-    "nestjs-pino": "^4.1.0",
-    "pino-http": "^10.3.0",
-    "reflect-metadata": "^0.2.0",
-    "rxjs": "^7.8.1"
+    "dotenv": "^16.4.7",
+    "dotenv-cli": "^8.0.0",
+    "nestjs-pino": "^4.1.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.0.0",
