@@ -9,7 +9,7 @@ export class UsersService {
 
   constructor(private readonly PrismaUsersDbService: PrismaUsersDbService){}
   
-  async createUser(ctx: CreateUserDto) : Promise<User> { // NB: label asyunc (access db) an add return type  
+  async createUser(ctx: CreateUserDto) : Promise<Omit<User, 'password'>> { // NB: label async (access db) and add return type  
 
     // persist user (& return promise):
     try {
@@ -17,6 +17,10 @@ export class UsersService {
         data: {
           ...ctx,
           password: await bcrypt.hash(ctx.password, 10)
+        },
+        select:{
+          id: true,
+          email: true
         }
       });
     } catch (error) {
