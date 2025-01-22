@@ -6,7 +6,7 @@ import { Logger } from 'nestjs-pino';
 import * as dotenv from 'dotenv';
 
 // Load environment variables from the new .env location
-dotenv.config({ path: '../../.env' });
+dotenv.config({ path: '../.env' });
 
 // TODO: Add logging
 // TODO: Add error handling (currently, NestJS will only return a 500 error (if an exception is thrown); or a 400 error (if a validation checks fail))
