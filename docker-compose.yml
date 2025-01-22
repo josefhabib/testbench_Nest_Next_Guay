@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  db-server-dev1:
+    build: './databases/db-server-dev1'
+    ports:
+      - "5435:5432"
+    environment:
+      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_DB: db-users
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
