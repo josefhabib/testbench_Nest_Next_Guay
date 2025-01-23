@@ -23,7 +23,6 @@ dotenv.config({ path: envFilePath });
 // TODO: ?Refactor: Move all the configuration to a separate file (e.g. config.ts)
 // TODO: ?Refactor: Move all the logging to a separate file (e.g. logger.ts)
 // TODO: ?Refactor: Move all the error handling to a separate file (e.g. error.ts)
-    
 
 
 async function bootstrap() {

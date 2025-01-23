@@ -19,7 +19,7 @@ export function SignUpForm() {
       <CardHeader>
         <CardTitle className="text-2xl">Signup</CardTitle>
         <CardDescription>
-          Enter your email/password below to create your account
+          Create an account to access the application
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -36,20 +36,22 @@ export function SignUpForm() {
           <div className="grid gap-2">
             <div className="flex items-center">
               <Label htmlFor="password">Password 1</Label>
-              <Link href="#" className="ml-auto inline-block text-sm underline">
-                Enter password
-              </Link>
             </div>
-            <Input id="password1" type="password" required />
+            <Input 
+              id="password1" 
+              type="password" 
+              placeholder="Enter password" 
+              required />
           </div>
           <div className="grid gap-2">
             <div className="flex items-center">
               <Label htmlFor="password">Password 2</Label>
-              <Link href="#" className="ml-auto inline-block text-sm underline">
-                Re-enter password
-              </Link>
             </div>
-            <Input id="password2" type="password" required />
+            <Input 
+              id="password2" 
+              type="password" 
+              placeholder="Re-enter password" 
+              required />
           </div>
           <Button type="submit" className="w-full">
             Sign Up
