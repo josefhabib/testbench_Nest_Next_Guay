@@ -6,13 +6,27 @@ import { useActionState, useEffect } from "react";
 import { SignupForm } from "../../../components/signup-form";
 import { Toaster } from "@/components/ui/toaster" // TODO: Move to layout?
 import { useToast } from "@/hooks/use-toast";
+import { useRouter } from 'next/navigation';
 import createUser from "./action_create-user";
 
 export default function Page() {
 
+  // --- Form Submission (Create User Account)
   // useActionState hook: manages the communication between a (server) action and the client (form) 
   const [state, formAction, isPending] = useActionState(createUser, undefined);
 
+
+  // --- Success case (account created): redirect to the login page
+  const router = useRouter();
+  useEffect(() => {
+  if (state?.state === "success") {
+      router.push("/auth/login");
+    }
+  }, [state?.state, router]);
+
+
+  // --- Error case (account NOT created): display toast notification
+  //
   // useToast hook: display of toast notifications
   //
   //  If the server-action to create a new user account fails (e.g. user already exists, 
@@ -29,6 +43,14 @@ export default function Page() {
           description: state.message
       })
     }
+    else if (state?.state === "success") {
+      toast({
+          variant: "default",
+          title: "Account Created",
+          description: "You can now login to your account"
+      })
+    }
+
   }, [state?.state])
 
   return (

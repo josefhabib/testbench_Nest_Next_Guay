@@ -26,6 +26,7 @@ import { redirect } from "next/navigation";
   state: "error" | "success";
   message: string;
   data: any;
+  redirectUrl?: string;
 }
 
 export default async function createUser( _prevState: any, formData: FormData): Promise<Response>{ 
@@ -73,11 +74,11 @@ export default async function createUser( _prevState: any, formData: FormData): 
       throw new Error(parsedResponse.message || "Failed to create user");
     }
 
-    redirect("/auth/login");
     return { 
       state: "success", 
       message: "User created successfully",
-      data: parsedResponse
+      data: parsedResponse,
+      // redirectUrl: "/auth/login"
     };
   } 
   // Handle (all other) Errors
