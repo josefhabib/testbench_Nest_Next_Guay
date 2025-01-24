@@ -3,6 +3,7 @@ import { UsersModule } from './users/users.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { LoggerModule } from 'nestjs-pino';
 import { PrismaUsersDbModule } from './prisma_users-db/prisma_users-db.module';
+import { AuthEModule } from './auth-e/auth-e.module';
 
 
 @Module({
@@ -33,6 +34,7 @@ import { PrismaUsersDbModule } from './prisma_users-db/prisma_users-db.module';
     }),
     ConfigModule.forRoot(),
     UsersModule,
+    AuthEModule,
   ],
   controllers: [],
   providers: [],
