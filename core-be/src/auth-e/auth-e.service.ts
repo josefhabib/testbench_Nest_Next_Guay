@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthEService {
@@ -18,7 +19,7 @@ export class AuthEService {
       
       // 2. If the user exists, check if the password is correct
       // - Compare the provided password with the hashed password stored in the database
-
+      await bcrypt.compare(password, user.password);
       // 3. If the password is correct, return true; Otherwise, return false
 
       return true
