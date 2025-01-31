@@ -1,32 +1,35 @@
-// import { Injectable } from "@nestjs/common";
-// import { PassportStrategy } from "@nestjs/passport";
-// import { Strategy } from "passport-local"; 
-// import { AuthEService } from "../auth-e.service";
+import { Injectable } from "@nestjs/common";
+import { PassportStrategy } from "@nestjs/passport";
+import { Strategy } from "passport-local"; 
+import { AuthEService } from "../auth-e.service";
+import { User } from "@prisma/client";
 
-// @Injectable()
-// export class LocalStrategy extends PassportStrategy(Strategy) {
+@Injectable()
+export class LocalStrategy extends PassportStrategy(Strategy) {
 
-//   constructor(private readonly authEService: AuthEService) {
-//     // DI the AuthEService into the LocalStrategy. The auth Service will be used to validate (check against db) the provided user credentials.
+  constructor(private readonly authEService: AuthEService) {
+    // DI the AuthEService into the LocalStrategy. The auth Service will be used to validate (check against db) the provided user credentials.
     
-//     // Override LocalStrategy default: By default the local strategy uses username and password fields. We want to use email and password fields instead. Override by passing an options object to the super() method.
-//     super({
-//       usernameField: "email",
-//       passwordField: "password",
-//     });
-//   }
+    // Override LocalStrategy default: By default the local strategy uses username and password fields. We want to use email and password fields instead. Override by passing an options object to the super() method.
+    super({
+      usernameField: "email",
+      passwordField: "password",
+    });
+  }
 
-//   // All Passport strategies must implmement a validate() method
-//   // - validate() method is called by Passport when an incoming request hits a Guard that is using this strategy
-//   // - The "local" strategy will call validated with 2 arguments: username and password (or here: email and password - see constructor)
-//   // - The task of the validate() method is to verify the credentials and 
-//   //    -> if valid: return a user object 
-//   //    -> if not valid: return null
-//   // 
-//   async validate(username: string, password: string): Promise<boolean> {
-//     return false; // TODO: Validation logic to be implemented in the Auth Service (for now, set to false for now to avoid unauthorized access)
-//   }
-// }
+  // All Passport strategies must implmement a validate() method
+  // - validate() method is called by Passport when an incoming request hits a Guard that is using this strategy
+  // - The "local" strategy will call validated with 2 arguments: username and password (or here: email and password - see constructor)
+  // - The task of the validate() method is to verify the credentials and 
+  //    -> if valid: return a user object 
+  //    -> if not valid: return null
+  // 
+  async validate(username: string, password: string): Promise<User> {
+    // NB: whatever is returned from the passport strategy validate method is attached to the request object as req.user
+    //     This is helpful for subsequent middleware to access the user object
+    return this.authEService.verifyCredentials(username, password);
+  }
+}
 
 
 
