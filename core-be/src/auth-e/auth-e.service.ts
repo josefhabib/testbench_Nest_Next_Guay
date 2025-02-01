@@ -28,7 +28,6 @@ export class AuthEService {
         throw new UnauthorizedException();
       }
       return user
-
     }
     catch (err) {
       throw new UnauthorizedException('Invalid credentials'); // NB: This error message is generic (Does not reveal if the username (step 1) or password (step 2) is incorrect)
