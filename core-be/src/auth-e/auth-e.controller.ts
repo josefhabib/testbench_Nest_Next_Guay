@@ -4,7 +4,7 @@ import { LocalAuthGuard } from './guards/local-auth.guard';
 @Controller('auth')
 export class AuthEController {
 
-  @UseGuards(LocalAuthGuard) // Guard: Protects route; Integrates LocalStrategy
+  @UseGuards(LocalAuthGuard) 
   @Post('login')
   login() {}
 

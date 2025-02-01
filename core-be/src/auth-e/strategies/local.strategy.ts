@@ -5,7 +5,11 @@ import { AuthEService } from "../auth-e.service";
 import { User } from "@prisma/client";
 
 @Injectable()
-export class LocalStrategy extends PassportStrategy(Strategy) {
+export class LocalStrategy extends PassportStrategy(Strategy, 'my-local-strategy') {
+
+  // Args: 
+  // - The first argument to PassportStrategy is the Strategy class that Passport will use to validate the user credentials.
+  // - The second argument is the name of the strategy (default: local - I gave it a different name to make it easier to see where it is used (guard)). This is used to identify the strategy in the Passport module.
 
   constructor(private readonly authEService: AuthEService) {
     // DI the AuthEService into the LocalStrategy. The auth Service will be used to validate (check against db) the provided user credentials.
