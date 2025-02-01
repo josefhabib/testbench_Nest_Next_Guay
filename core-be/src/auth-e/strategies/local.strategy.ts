@@ -7,13 +7,8 @@ import { User } from "@prisma/client";
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy, 'my-local-strategy') {
 
-  // Args: 
-  // - The first argument to PassportStrategy is the Strategy class that Passport will use to validate the user credentials.
-  // - The second argument is the name of the strategy (default: local - I gave it a different name to make it easier to see where it is used (guard)). This is used to identify the strategy in the Passport module.
-
-  constructor(private readonly authEService: AuthEService) {
-    // DI the AuthEService into the LocalStrategy. The auth Service will be used to validate (check against db) the provided user credentials.
-    
+    constructor(private readonly authEService: AuthEService) {
+   
     // Override LocalStrategy default: By default the local strategy uses username and password fields. We want to use email and password fields instead. Override by passing an options object to the super() method.
     super({
       usernameField: "email",
@@ -21,16 +16,13 @@ export class LocalStrategy extends PassportStrategy(Strategy, 'my-local-strategy
     });
   }
 
-  // All Passport strategies must implmement a validate() method
-  // - validate() method is called by Passport when an incoming request hits a Guard that is using this strategy
-  // - The "local" strategy will call validated with 2 arguments: username and password (or here: email and password - see constructor)
-  // - The task of the validate() method is to verify the credentials and 
-  //    -> if valid: return a user object 
-  //    -> if not valid: return null
-  // 
   async validate(username: string, password: string): Promise<User> {
+    // All Passport strategies must implmement a validate() method
+    // The validate() method is called by Passport when an incoming request hits a Guard that is using this strategy
+
     // NB: whatever is returned from the passport strategy validate method is attached to the request object as req.user
     //     This is helpful for subsequent middleware to access the user object
+
     return this.authEService.verifyCredentials(username, password);
   }
 }

@@ -31,6 +31,9 @@ export class UsersService {
   }
 
   async getUser(filter: Prisma.UserWhereUniqueInput): Promise<User> {
+    // Find a user in the users-db database given a selected (not hardcoded) criterion
+    // - Prisma's findUniqueOrThrow method is used to find or throw an error if no/multiple users are found
+    // - {where: filter} is used to define the filter criterion in real time (i.e. through the args provided to the method) 
     try {
       return await this.PrismaUsersDbService.user.findUniqueOrThrow({ where: filter });
     } catch (error) {
@@ -38,8 +41,4 @@ export class UsersService {
     }
   }
 }
-
-// Find a user in the users-db database given SOME criteria (not hardcoded)
-    // NB: Prisma allows you to use the findUniqueOrReject method to find a user by their email (or throw an error if no/multiple users are found)
-    // NB: Prisma allows you to define the filter criterion in real time (i.e. through the args provided to the method) - this avoids having to define a separate query method for each filter criterion 
 
