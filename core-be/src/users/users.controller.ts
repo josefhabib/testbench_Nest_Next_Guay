@@ -15,12 +15,5 @@ export class UsersController {
     console.log('payload: ', req);
     return this.usersService.createUser(req);
   }
-  
-
-  // GET /users: Get all users
-  // GET /users/:id: Get a user by id
-  // PUT /users/:id: Update a user by id
-  // DELETE /users/:id: Delete a user by id
-
 
 }
