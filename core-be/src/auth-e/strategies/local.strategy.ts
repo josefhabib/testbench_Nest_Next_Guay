@@ -1,13 +1,14 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { PassportStrategy } from "@nestjs/passport";
 import { Strategy } from "passport-local"; 
-import { AuthEService } from "../auth-e.service";
+import { UsersService } from 'src/users/users.service';
 import { User } from "@prisma/client";
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy, 'my-local-strategy') {
 
-    constructor(private readonly authEService: AuthEService) {
+    constructor(private readonly usersService: UsersService) {
    
     // Override LocalStrategy default: By default the local strategy uses username and password fields. We want to use email and password fields instead. Override by passing an options object to the super() method.
     super({
@@ -23,7 +24,27 @@ export class LocalStrategy extends PassportStrategy(Strategy, 'my-local-strategy
     // NB: whatever is returned from the passport strategy validate method is attached to the request object as req.user
     //     This is helpful for subsequent middleware to access the user object
 
-    return this.authEService.verifyCredentials(username, password);
+    return this.verifyCredentials(username, password);
+  }
+
+  // Private utility method to verify the user's credentials (email and password) by comparing provided (args) against the database
+  private async verifyCredentials(email: string, password: string): Promise<User> {
+    try { 
+      // 1. Check if the user exists in the database 
+      const user = await this.usersService.getUser({email});
+      
+      // 2. If the user exists, check if the password is correct
+      const authenticated = await bcrypt.compare(password, user.password);
+      
+      // 3. If the password is correct, return the user; Otherwise, throw an UnauthorizedException
+      if (!authenticated) {
+        throw new UnauthorizedException();
+      }
+      return user
+    }
+    catch (err) {
+      throw new UnauthorizedException('Invalid credentials'); // NB: Generic error message formulation (Does not reveal if the username (step 1) or password (step 2) is incorrect)
+    }
   }
 }
 
