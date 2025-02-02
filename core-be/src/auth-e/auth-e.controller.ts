@@ -3,9 +3,7 @@ import { LocalAuthGuard } from './guards/local-auth.guard';
 
 @Controller('auth')
 export class AuthEController {
-
-  @UseGuards(LocalAuthGuard) 
+  @UseGuards(LocalAuthGuard)
   @Post('login')
   login() {}
-
 }
