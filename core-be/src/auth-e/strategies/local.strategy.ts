@@ -15,18 +15,20 @@ export class LocalStrategy extends PassportStrategy(
     super({
       usernameField: 'email',
       passwordField: 'password',
+      passReqToCallback: true, // Ensure this is set to true if you want to access the request object in the validate() method
     });
   }
 
-  async validate(email: string, password: string): Promise<User> {
-    // All Passport strategies must implement a validate() method
-    // The validate() method is called by Passport when an incoming request hits a Guard that is using this strategy
-
-    // NB: whatever is returned from the passport strategy validate method is attached to the request object as req.user
-    //     This is helpful for subsequent middleware to access the user object
-
+  async validate(
+    req: Request,
+    email: string,
+    password: string,
+  ): Promise<Omit<User, 'password'>> {
     const user = await this.verifyCredentials(email, password);
-    return user;
+
+    // If the user is authenticated, return the user object (redact the password field for security)
+    const { password: _, ...result } = user;
+    return result;
   }
 
   // Private utility method to verify the user's credentials (email and password) by comparing provided (args) against the database
