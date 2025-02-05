@@ -26,6 +26,14 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 })
 export class AuthEModule {}
 
+//TODO: Add a refresh token strategy
+//      Currently the JWT module is used to sign and verify tokens, but it does not provide a way to refresh tokens.
+//      This leaves us with the option of either using long expiration times (not secure) or short (tedious - the user keeps getting signed out even if actively working on a session).
+//      Since there is not one optimal validity duration there is not optimal value we can set. Instead, implement refresh tokens - i.e set a short expiry time and reset the timer when you interact with the browser (active session) 
+//      To implement refresh tokens, you need to create a separate strategy that generates and verifies refresh tokens.
+
+
+
 // Elaboration: JWT Module import, registration & configuration
 // ------------------------------------------------------------
 //

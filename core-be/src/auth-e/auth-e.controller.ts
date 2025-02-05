@@ -18,7 +18,7 @@ export class AuthEController {
     // Explicitly add user object attributes that you want to include in the JWT token (Security: avoid including sensitive/superfluous data)
     const trimmedUserObj = {email: user.email};
     // Generate the JWT token + attach it to the response object
-    return this.authService.login(trimmedUserObj); // delegate JWT creation to login function of our AuthEService: given the user object enrich the current res object with the JWT token.
+    return this.authService.login(trimmedUserObj, response); // delegate JWT creation to login function of our AuthEService: given the user object enrich the current res object with the JWT token.
   }
 }
 
