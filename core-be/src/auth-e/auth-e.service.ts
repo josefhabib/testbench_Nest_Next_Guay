@@ -42,16 +42,17 @@ export class AuthEService {
 
     // --- Create the JWT token
     const payload = { user };
-    console.log('IN AuthEService.login(): The payload is ' + JSON.stringify(payload));
+    // console.log('IN AuthEService.login(): The payload is ' + JSON.stringify(payload));
 
     const token = this.jwtService.sign(payload);
-    console.log('IN AuthEService.login(): The generated token is', token);
+    // console.log('IN AuthEService.login(): The generated token is', token);
 
     // --- Calculate the expiry time (to communicate expiration time to the CLIENT - prompts cookie to be cleared when expired)
     const decodedToken = jwt.decode(token) as { [key: string]: any };
     const expiresAt = new Date(decodedToken.exp * 1000);
 
-    // // --- OPTIONAL Debugging (Start): Decode the token to inspect its payload and expiration time
+    // // --- OPTIONAL Debugging (Start): Decode the token to inspect its payload and expiration time-----------------------------
+    //
     // console.log('\n ========================Debugging Start: check JWT attached to res by login()============================');
     // console.log('IN AuthEService.login(): The decoded token is', decodedToken);
     // // - Convert iat to human-readable format
@@ -70,7 +71,9 @@ export class AuthEService {
     //   console.log('IN AuthEService.login(): The token expires at an unknown time');
     // }
     // console.log('========================Debugging End:   check JWT attached to res by login()============================ \n');
-    // // --- OPTIONAL Debugging (End)
+    //
+    // // --- OPTIONAL Debugging (End)-------------------------------------------------------------------------------------
+
 
     // --- Attach the JWT token to the response object (cookie)
     res.cookie('be-core-auth', token, {

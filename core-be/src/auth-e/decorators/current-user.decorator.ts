@@ -1,4 +1,4 @@
-import { createParamDecorator, ExecutionContext } from '@nestjs/common';
+import { createParamDecorator, ExecutionContext, Logger } from '@nestjs/common';
 import { User } from '@prisma/client';
 
 /**
@@ -27,6 +27,14 @@ import { User } from '@prisma/client';
 export const CurrentUser = createParamDecorator(
   (_data: unknown, context: ExecutionContext) => {
     const request = context.switchToHttp().getRequest(); // Explicitly setting protocol simplifies protocol switching
-    return request.user as User; // Type Safety
+    const user = request.user as User;
+    
+    const logger = new Logger('CurrentUserDecorator');
+    if (!user) {
+      logger.warn('No user found in request');
+    } else {
+      logger.log('User found in request');
+    }
+    return user;
   },
 );

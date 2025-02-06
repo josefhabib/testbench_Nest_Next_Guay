@@ -11,7 +11,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'my-jwt-strategy') {
   constructor(private readonly configService: ConfigService) {
     super({
       jwtFromRequest: ExtractJwt.fromExtractors([
-        (request: Request) => {return request.cookies.Authentication} 
+        (request: Request) => {return request.cookies['be-core-auth']} 
       ]),
       secretOrKey: configService.get('NESTJS_CORE_JWT_SECRET'),
     });
