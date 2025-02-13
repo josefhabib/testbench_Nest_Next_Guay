@@ -1,11 +1,48 @@
 {
   "version": "0.2.0",
-  "env": {
-    "DEBUG": "*"
-  },
   "configurations": [
     {
-      "name": "> Next.js: Debug Server",
+      "name": "Official Next.js: debug server-side",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "npm run dev"
+    },
+    {
+      "name": "Official Next.js: debug client-side",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:3000"
+    },
+    {
+      "name": "Official Next.js: debug client-side (Firefox)",
+      "type": "firefox",
+      "request": "launch",
+      "url": "http://localhost:3000",
+      "reAttach": true,
+      "pathMappings": [
+        {
+          "url": "webpack://_N_E",
+          "path": "${workspaceFolder}"
+        }
+      ]
+    },
+    {
+      "name": "Official Next.js: debug full stack",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/node_modules/.bin/next",
+      "runtimeArgs": ["--inspect"],
+      "skipFiles": ["<node_internals>/**"],
+      "serverReadyAction": {
+        "action": "debugWithChrome",
+        "killOnServerStop": true,
+        "pattern": "- Local:.+(https?://.+)",
+        "uriFormat": "%s",
+        "webRoot": "${workspaceFolder}"
+      }
+    },
+    {
+      "name": "Custom Debug-Next.js: Server",
       "type": "node",
       "request": "launch",
       "runtimeExecutable": "node",
@@ -15,7 +52,7 @@
       "skipFiles": ["<node_internals>/**"]
     },
     {
-      "name": "> Next.js: Debug Client",
+      "name": "Custom Debug-Next.js: Client",
       "type": "chrome",
       "request": "launch",
       "url": "http://localhost:3000",
@@ -26,8 +63,8 @@
   ],
   "compounds": [
     {
-      "name": "Next.js: Debug Server & Client",
-      "configurations": ["> Next.js: Debug Server", "> Next.js: Debug Client"],
+      "name": "Custom - Next.js: Debug Server & Client",
+      "configurations": ["Custom Debug-Next.js: Server", "Custom Debug-Next.js: Client"],
       // "preLaunchTask": "Wait for Server", // (see ./tasks.json)
       "stopAll": true // Optional: Stop all configurations when stopping the debugger
     }
