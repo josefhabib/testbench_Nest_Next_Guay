@@ -1,24 +1,35 @@
 {
   "version": "0.2.0",
+  "env": {
+    "DEBUG": "*"
+  },
   "configurations": [
     {
-      "name": "Next.js: Debug Server",
+      "name": "> Next.js: Debug Server",
       "type": "node",
       "request": "launch",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev"],
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["--inspect", "node_modules/next/dist/bin/next", "dev"],
       "console": "integratedTerminal",
-      "internalConsoleOptions": "neverOpen",
+      "internalConsoleOptions": "openOnSessionStart",
       "skipFiles": ["<node_internals>/**"]
     },
     {
-      "name": "Next.js: Debug Client",
+      "name": "> Next.js: Debug Client",
       "type": "chrome",
       "request": "launch",
-      "url": "http://localhost:3003",
+      "url": "http://localhost:3000",
       "webRoot": "${workspaceFolder}",
       "sourceMaps": true,
-      "skipFiles": ["<node_internals>/**"]
+      "skipFiles": ["<node_internals>/**", "${workspaceFolder}/node_modules/**"]
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Next.js: Debug Server & Client",
+      "configurations": ["> Next.js: Debug Server", "> Next.js: Debug Client"],
+      // "preLaunchTask": "Wait for Server", // (see ./tasks.json)
+      "stopAll": true // Optional: Stop all configurations when stopping the debugger
     }
   ]
 }
