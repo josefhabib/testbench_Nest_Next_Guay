@@ -11,8 +11,6 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
-// TODO: Implement the login functionality; 
-// TODO: Impelement signin fail message;
 
 export function LoginForm() {
   return (

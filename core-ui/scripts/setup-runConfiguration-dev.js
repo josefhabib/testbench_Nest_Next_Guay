@@ -40,9 +40,5 @@ exec(command, (error, stdout, stderr) => {
   console.log(`stdout: ${stdout}`);
 });
 
-//TODO: DEBUG ONLY
-// console.log("Current working directory:", process.cwd());
-// console.log("Environment variables:", process.env);
-
 // Display the port where the NextJS app is running
 console.log('The NextJS app is running on port:', port);

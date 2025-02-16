@@ -76,13 +76,9 @@ export default function Page() {
       // should never happen - throw an error to stop program.
       throw new Error("Unknown state in createUser(), Signup form");
     }
-  }, [isPending, state]); //TODO: ROUTER DEPENDENCY OMITTED FOR TESTING
+  }, [isPending, state]); 
 
-
-  // TODO: Add spinner & lock the form while pending
-
-
-
+  // --- Render the Signup Form
   return (
    <div className="flex h-screen w-full items-center justify-center px-4">
       <form action={formAction}>
