@@ -32,6 +32,5 @@ export interface ILoginUserOutput {
   status?:   number;                             //=> HTTP status code returned by the server (optional since pre-flight checks may preclude a server response)
   message:  string;                              //=> Optional message to be displayed in the toast notification
   data: any;                                     //=> Data returned by the server (if any)
-  cookie: string;                                //=> Cookie returned by the server (if any)
 } 
 

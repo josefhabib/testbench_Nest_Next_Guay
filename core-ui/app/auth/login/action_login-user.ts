@@ -30,7 +30,38 @@
 
 import { post } from "@/utils/custom_fetch";
 import { ILoginUserOutput } from "@/Interfaces/login-user-output.interface";
+import { cookies } from "next/headers";
+import { jwtDecode } from "jwt-decode";
 
+
+async function setAuthCookie(response: Response) {
+  // Helper function to set the auth cookie in the browser
+  //
+  // -> input:  The response object from the server
+  // -> output: The auth cookie is set in the browser
+  //
+  // 1. Extract the auth cookie from the response header
+  // 2. Parse the cookie string to extract the cookie name and value
+  // 3. Decode the token to extract the expiration date; Then convert the expiration date to a Date object (using jwt-decode)
+  // 4. Set the cookie in the browser (using cookies() from next/headers)
+  
+  const authCookieHeader = response.headers.get("Set-Cookie"); // Extract the auth cookie from the response header
+  
+  if (authCookieHeader) { 
+    const token = authCookieHeader.split(";")[0].split("=")[1]; 
+    const decodedToken = jwtDecode<{ exp: number }>(token); 
+    const expiresOn = new Date(decodedToken.exp * 1000); 
+    (await cookies()).set({
+      name: "be-core-auth",
+      value: token,
+      secure: true,
+      httpOnly: true,
+      expires: expiresOn,
+    });
+  }
+}
+
+// Login function
 export default async function logInUser(_prevState: ILoginUserOutput, formData: FormData): Promise<ILoginUserOutput> {
 
   // --- Setup:
@@ -51,7 +82,6 @@ export default async function logInUser(_prevState: ILoginUserOutput, formData: 
       state: "error",
       message: "Form incomplete.",
       data: {},
-      cookie: ""
     };
     return returnObj;
   }
@@ -66,7 +96,6 @@ export default async function logInUser(_prevState: ILoginUserOutput, formData: 
         status: response.status,
         message: parsedResponse.body.message || {}, //TODO: use getErrorMessage() to extract the message
         data: {},
-        cookie: ""
       }
       return returnObj;
     }
@@ -76,10 +105,8 @@ export default async function logInUser(_prevState: ILoginUserOutput, formData: 
         status: response.status,
         message: parsedResponse.body.message || {},
         data: parsedResponse.data || {},
-        cookie: response.headers.get("set-cookie") || ""
       }
-      //TODO: set the cookie in the browser ()
-      // const cookie = response.headers.get("set-cookie") || ""
+      await setAuthCookie(response);  // Set the auth cookie in the browser
       return returnObj
     }
   } 
@@ -88,8 +115,7 @@ export default async function logInUser(_prevState: ILoginUserOutput, formData: 
       state: "error",
       status: 500,
       message: "Unkown server error",
-      data: {},
-      cookie: ""
+      data: {}
     }
     return returnObj;
   }
