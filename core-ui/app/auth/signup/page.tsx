@@ -31,7 +31,7 @@ import { Toaster } from "@/components/ui/toaster" // TODO: Move to layout?
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from 'next/navigation';
 import createUser from "./action_create-user";
-import { ICreateUserOutput } from "@/Interfaces/shared/create-user-output.interface";
+import { ICreateUserOutput } from "@/Interfaces/create-user-output.interface";
 
 export default function Page() {
 

@@ -65,13 +65,13 @@
  */
 
 import { post } from "@/utils/custom_fetch";
-import { ICreateUserOutput } from "@/Interfaces/shared/create-user-output.interface";
+import { ICreateUserOutput } from "@/Interfaces/create-user-output.interface";
 
 export default async function createUser(_prevState: any, formData: FormData): Promise<ICreateUserOutput> {
 
   // --- Setup:
   // Set URL of the target server from the environment variables
-  const url_coreServer = `${process.env.NESTJS_CORE_URL}/users`;
+  const url = `${process.env.NESTJS_CORE_URL}/users`;
 
   // --- Pre-Processing:
   // Extract form data
@@ -109,7 +109,7 @@ export default async function createUser(_prevState: any, formData: FormData): P
     password: ip_password1,
   };
   try {
-    const response = await post(url_coreServer, jsondata);
+    const response = await post(url, jsondata);
     const responseBody = await response.json();
     
     // --- Handle the response (create a returnObj) based on the response from the server
