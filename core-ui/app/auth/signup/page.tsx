@@ -26,8 +26,8 @@
 
 
 import { useActionState, useEffect } from "react";
-import { SignupForm } from "../../../components/signup-form";
-import { Toaster } from "@/components/ui/toaster" // TODO: Move to layout?
+import { SignupForm } from "../../../components/organisms/signup-form";
+import { Toaster } from "@/components/atoms/toaster" // TODO: Move to layout?
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from 'next/navigation';
 import createUser from "./action_create-user";

@@ -1,15 +1,15 @@
 import Link from "next/link"
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/atoms/button"
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+} from "@/components/atoms/card"
+import { Input } from "@/components/atoms/input"
+import { Label } from "@/components/atoms/label"
 import { Loader2 } from "lucide-react";
 
 interface ILoginFormProps {

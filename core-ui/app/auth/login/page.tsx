@@ -1,11 +1,11 @@
 "use client";
 
 import { useActionState, useEffect } from "react";
-import { LoginForm } from "@/components/login-form"
-import { Toaster } from "@/components/ui/toaster" // TODO: Move to layout?
+import { LoginForm } from "@/components/organisms/login-form"
+import { Toaster } from "@/components/atoms/toaster" // TODO: Move to layout?
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from 'next/navigation';
-import logInUser from "./action_login-user";
+import { logInUser } from "./action_login-user";
 import { ILoginUserOutput } from "@/Interfaces/login-user-output.interface";
 
 export default function Page() {
@@ -16,7 +16,6 @@ export default function Page() {
     state: "starting",
     message: "",
     data: {},
-    cookie: ""
   };
   // Initialize the router
   const router = useRouter(); //TODO: Redirect to the landing page if the user is logged in
