@@ -14,7 +14,6 @@
  * - Processes the response from the auth server
  *  -- If the server responds with an error, it returns an error state with the server's message.
  *  -- If the login is successful, it returns a success state with the server's response data and cookie.
- *     //TODO: set the cookie in the browser ()
  * - In case of an unknown server error, it returns an error state with a status of 500.
  * 
  * @example
