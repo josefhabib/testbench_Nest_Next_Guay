@@ -62,8 +62,7 @@
 
 
 import { getErrorMessage } from "./errors";
-// TODO: Comment out next line
-// import { cookies } from "next/headers";
+import { cookies } from "next/headers";
 
 // Define & impose an interface/type for the response body
 interface StandardResponse {
@@ -140,8 +139,7 @@ export const post = async (
       method: "POST",
       headers: { 
         "Content-Type": "application/json",
-        // TODO: Comment out next line
-        // Cookie: (await cookies()).toString(), // (!) Include (auth) cookies when forwarding requests from NextJS back end to NestJS server (!)
+        Cookie: (await cookies()).toString(), // (!) Include (auth) cookies when forwarding requests from NextJS back end to NestJS server (!)
       },
       body: JSON.stringify(payload),
       credentials: 'include', // (!) Include credentials to handle cookies (!)
@@ -213,8 +211,7 @@ export const get = async (
       method: "GET",
       headers: { 
         "Content-Type": "application/json", 
-        //TODO Comment out next line
-        // Cookie: (await cookies()).toString(), // (!) Include (auth) cookies when forwarding requests from NextJS back end to NestJS server (!)
+        Cookie: (await cookies()).toString(), // (!) Include (auth) cookies when forwarding requests from NextJS back end to NestJS server (!)
       },
     });
     
