@@ -39,6 +39,41 @@
 //    The whoami server action implemented here provides a state (React render) based on whether the 
 //     request to an access restricted NestJS API route was authorized or not (based on authentication status).
 
+import { get } from "@/utils/custom_fetch";
+
+export interface IWhoamiResponse {
+  user?: {
+    id: number;
+    email: string;
+  },
+  status: "loggedIn" | "notLoggedIn" | "unknown";
+}
+
+export default async function whoami(): Promise<IWhoamiResponse> {
+  // ---
+  // -> input:  None
+  // -> output: WhoamiResponse
+  //      --> status: 
+  //            - "loggedIn": if status is 2xx and response has a body containing the user details
+  //            - "notLoggedIn": if the status is 401 
+  //            - "unknown": if the status is not 2xx or 401 - i.e. an error has occurred
+  //      --> user:
+  //          Optional object containing the user details (id, email) if the status is "loggedIn"
+  // ---
+  // 1. Send a GET request to the /auth/whoami route on the NestJS server
+  // 2. Return the response from the server
+  // ---
+  const response = await get(`${process.env.NESTJS_CORE_URL}/auth/whoami`);
+  const responseBody = await response.json();
+  if (responseBody.status >= 200 && responseBody.status < 300) {
+    return { status: "loggedIn", user: responseBody.user };
+  } else if (responseBody.status === 401) {
+    return { status: "notLoggedIn" };
+  } else {
+    return { status: "unknown" };
+  }
+}
+
 
 
 

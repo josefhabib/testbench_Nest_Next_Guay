@@ -62,6 +62,8 @@
 
 
 import { getErrorMessage } from "./errors";
+// TODO: Comment out next line
+// import { cookies } from "next/headers";
 
 // Define & impose an interface/type for the response body
 interface StandardResponse {
@@ -136,7 +138,11 @@ export const post = async (
   try {
     const fetchResponse = await fetch(url, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        "Content-Type": "application/json",
+        // TODO: Comment out next line
+        // Cookie: (await cookies()).toString(), // (!) Include (auth) cookies when forwarding requests from NextJS back end to NestJS server (!)
+      },
       body: JSON.stringify(payload),
       credentials: 'include', // (!) Include credentials to handle cookies (!)
     });
@@ -164,6 +170,78 @@ export const post = async (
       headers.set("Content-Type", "application/json");
       return createResponse(fetchResponse.status, { body: responseData }, headers);
     } catch {
+      const headers = new Headers(fetchResponse.headers);
+      headers.set("Content-Type", "application/json");
+      return createResponse(fetchResponse.status, { body: responseText }, headers);
+    }
+  // Handle all other errors  
+  } catch (error) {
+    return createResponse(500, {
+      error: "An unknown error occurred",
+    });
+  }
+};
+
+
+export const get = async (
+  url: string,
+): Promise<Response> => {
+
+    // --- Validation Checks ---
+
+  // URL must be a string
+  if (typeof url !== "string") {
+    return createResponse(400, { error: "URL must be a string" });
+  }
+
+  // URL must start with http://localhost or https://
+  //  Rationale: 
+  //  - Further, not including the protocol in the URL can lead to errors that have been shown to be hard to diagnose and debug
+  //  - Since we may be posting sensitive data (e.g. credentials) we want to ensure that the data is sent securely or, for development, to a local host only
+  if (
+    !url.startsWith("http://localhost") &&
+    !url.startsWith("https://")
+  ) {
+    return createResponse(400, {
+      error: "URL must start with http://localhost or https://",
+    });
+  }
+
+  // --- Execute Request & Handle Response ---
+  try {
+    const fetchResponse = await fetch(url, {
+      method: "GET",
+      headers: { 
+        "Content-Type": "application/json", 
+        //TODO Comment out next line
+        // Cookie: (await cookies()).toString(), // (!) Include (auth) cookies when forwarding requests from NextJS back end to NestJS server (!)
+      },
+    });
+    
+    // Handle HTTP errors
+    if (!fetchResponse.ok) {
+      let errorMessage: string;
+      try {
+        const errorData = await fetchResponse.json();
+        errorMessage = getErrorMessage(errorData); // (error.ts: getErrorMessage() Extracts the error message from the error data and formats it)
+      } catch {
+        errorMessage = "An unknown error occurred";
+      }
+      // Clone headers and set Content-Type
+      const headers = new Headers(fetchResponse.headers);
+      headers.set("Content-Type", "application/json");
+      return createResponse(fetchResponse.status, { error: errorMessage }, headers);
+    }
+
+    // Handle success response
+    const responseText = await fetchResponse.text();
+    try {
+      const responseData = JSON.parse(responseText);
+      const headers = new Headers(fetchResponse.headers);
+      headers.set("Content-Type", "application/json");
+      return createResponse(fetchResponse.status, { body: responseData }, headers);
+    } 
+    catch {
       const headers = new Headers(fetchResponse.headers);
       headers.set("Content-Type", "application/json");
       return createResponse(fetchResponse.status, { body: responseText }, headers);
