@@ -1,7 +1,13 @@
-import Image from "next/image";
+import LogoutButton from '@/components/molecules/logout-button';
 
-export default function Home() {
+const HomePage = () => {
   return (
-    <> Home Sweet Home </>
+    <div style={{ margin: '20px', padding: '20px' }}> 
+      Home Sweet Home
+      <br /> <br /> <br /> 
+      <LogoutButton />
+    </div>
   );
-}
+};
+
+export default HomePage;

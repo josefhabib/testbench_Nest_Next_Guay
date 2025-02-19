@@ -34,9 +34,9 @@ import { cookies } from "next/headers";
 import { jwtDecode } from "jwt-decode";
 
 
+// --- Helper function to set the auth cookie in the browser
 async function setAuthCookie(response: Response) {
-  // Helper function to set the auth cookie in the browser
-  //
+  // ---
   // -> input:  The response object from the server
   // -> output: The auth cookie is set in the browser
   //
@@ -44,7 +44,7 @@ async function setAuthCookie(response: Response) {
   // 2. Parse the cookie string to extract the cookie name and value
   // 3. Decode the token to extract the expiration date; Then convert the expiration date to a Date object (using jwt-decode)
   // 4. Set the cookie in the browser (using cookies() from next/headers)
-  
+  // ---
   const authCookieHeader = response.headers.get("Set-Cookie"); // Extract the auth cookie from the response header
   
   if (authCookieHeader) { 
@@ -61,8 +61,8 @@ async function setAuthCookie(response: Response) {
   }
 }
 
-// Login function
-export default async function logInUser(_prevState: ILoginUserOutput, formData: FormData): Promise<ILoginUserOutput> {
+// --- Login function
+export async function logInUser(_prevState: ILoginUserOutput, formData: FormData): Promise<ILoginUserOutput> {
 
   // --- Setup:
   // Set URL of the target server from the environment variables
@@ -119,4 +119,10 @@ export default async function logInUser(_prevState: ILoginUserOutput, formData: 
     }
     return returnObj;
   }
+}
+
+// --- Logout function
+export async function logOutUser(autheCookieName: string){
+  const authECookie = cookies(); // Get the cookies
+  (await authECookie).delete('be-core-auth'); // Delete the cookie (to log out the user) 
 }
