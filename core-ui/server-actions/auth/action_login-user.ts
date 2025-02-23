@@ -88,7 +88,7 @@ export async function logInUser(_prevState: ILoginUserOutput, formData: FormData
   try{
     const response = await post(url, payload);
     const parsedResponse = await response.json();
-
+    
     if (!response.ok){
       const returnObj: ILoginUserOutput =  {
         state: "error",
@@ -102,10 +102,10 @@ export async function logInUser(_prevState: ILoginUserOutput, formData: FormData
       const returnObj: ILoginUserOutput = {
         state: "success",
         status: response.status,
-        message: parsedResponse.body.message || {},
+        message: parsedResponse.message || {},
         data: parsedResponse.data || {},
       }
-      await setAuthCookie(response);  // Set the auth cookie in the browser
+      await setAuthCookie(response);  // Set the auth cookie in the response object (and by extension in the browser)
       return returnObj
     }
   } 

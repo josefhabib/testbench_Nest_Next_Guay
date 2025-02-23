@@ -29,6 +29,8 @@ const HomePage = async () => {
       <div style={{ margin: '20px', padding: '20px' }}> 
         Home Sweet Home
         <br /> <br /> <br /> 
+        Welcome {user.user!.email}!
+        <br /> <br /> <br /> 
         <LogoutButton />
       </div>
     );

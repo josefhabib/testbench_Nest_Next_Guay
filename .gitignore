@@ -159,3 +159,6 @@ dist
 # temp directories/files
 .tmp
 **/TempNote_*
+
+# Trash
+trash/
