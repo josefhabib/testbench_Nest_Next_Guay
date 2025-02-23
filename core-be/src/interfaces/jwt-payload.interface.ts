@@ -5,6 +5,7 @@
 import { IUserGroups } from './usergroups.interface';
 
 export interface IJwtPayload {
+  id: number
   email: string;
-  // becore_usergroup: IUserGroups;
+  //TODO: Add becore_usergroup: IUserGroups;
 }

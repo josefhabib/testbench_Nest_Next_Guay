@@ -6,6 +6,7 @@ import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { CurrentUser } from './decorators/current-user.decorator';
 import { User } from '@prisma/client';
 import { IJwtPayload } from 'src/interfaces/jwt-payload.interface';
+import { ICurrentUserInfo } from 'src/interfaces/user-info_be-core-auth';
 
 @Controller('auth')
 export class AuthEController {
@@ -18,15 +19,17 @@ export class AuthEController {
     @Res({ passthrough: true }) response: Response,
   ) {
     // Explicitly add user object attributes that you want to include in the JWT token (Security: avoid including sensitive/superfluous data)
-    const trimmedUserObj: IJwtPayload = {email: user.email};
-    
+    const trimmedUserObj: IJwtPayload = {
+      id: user.id,
+      email: user.email
+    };
     // Generate the JWT token + attach it to the response object
     return this.authService.login(trimmedUserObj, response); // delegate JWT creation to login function of our AuthEService: given the user object enrich the current res object with the JWT token.
   }
 
   @UseGuards(JwtAuthGuard)
   @Get('whoami')
-  whoami(@CurrentUser() user: IJwtPayload) {
+  whoami(@CurrentUser() user: ICurrentUserInfo) {
     return user;
   }
 }
