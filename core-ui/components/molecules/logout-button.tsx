@@ -2,7 +2,7 @@
 
 import { LogOut } from 'lucide-react';
 import { useState } from 'react';
-import { logOutUser } from '@/server-actions/auth/action_login-user';
+import { logOutUser } from '@/server-actions/auth/action_logout-user';
 import { useRouter } from 'next/navigation';
 
 /**
