@@ -22,11 +22,15 @@
 "use client"
 import { AuthContext } from "./auth-context";
 import { IAuthContext } from "../interfaces_types/auth-context.interface";
+import { UserContext } from "./user-context";
+import { IUserDetails } from "@/interfaces_types/user-details.interface";
 
-export default function ContextProviders({ children, authStatus }: { children: React.ReactNode, authStatus: IAuthContext }) {
+export default function ContextProviders({ children, authStatus, userDetails }: { children: React.ReactNode, authStatus: IAuthContext, userDetails: IUserDetails }) {
   return (
-    <AuthContext.Provider value={authStatus}>
+    <AuthContext.Provider value={authStatus}> {/* Boolean: true if the user is authenticated, false otherwise. */}
+      <UserContext.Provider value={userDetails}> {/* Object containing details of a user: {id: string | undefined, email: string | undefined} */}
         {children}
+      </UserContext.Provider>
     </AuthContext.Provider>
   );
 }

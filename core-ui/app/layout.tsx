@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import getAuthStatus from "@/server-actions/auth/action_get-auth-status";
 import ContextProviders from "@/contexts/context-providers";
+import getAuthStatus from "@/server-actions/auth/action_get-auth-status";
+import whoami from "@/server-actions/auth/action_whoami";
 import { IAuthContext } from "@/interfaces_types/auth-context.interface";
+import { IUserDetails } from "@/interfaces_types/user-details.interface";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -23,20 +25,20 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({ children }: Readonly<{children: React.ReactNode;}>) {
 
-    // --- Server Actions to get context values
-    const authStatus:IAuthContext = await getAuthStatus(); // Is the user authenticated?
-  
-    //TODO: Enrich authStatus with user information (Do this after the user database, whoami endpoint, and auth-context are implemented)
-    // let user:IWhoamiResponse = { status: "notLoggedIn" };  // If the user is authenticated, get the user's information
-    // if (authStatus.authenticated) {                         
-    //   authStatus.username = ...
-    // }
-
+  // --- Server Actions (to get values that will be passed to the context providers)   
+  const authStatus:IAuthContext = await getAuthStatus();  // Is the user authenticated?
+  let userDetails:IUserDetails = {
+    id:undefined,
+    email:undefined
+  }; 
+  if (authStatus.authenticated) {                         // If the user is authenticated...
+    userDetails = await whoami();      // Get the user's information
+  }
 
   return (
     <html lang="en" className="dark">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <ContextProviders authStatus={authStatus}> 
+        <ContextProviders authStatus={authStatus} userDetails={userDetails}> 
           {children}
         </ContextProviders>
       </body>

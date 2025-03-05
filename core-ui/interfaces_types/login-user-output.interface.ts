@@ -29,8 +29,8 @@
  */
 export interface ILoginUserOutput {
   state:    "starting" | "success" | "error";    //=> This governs the rendering of the React form: "starting - initial value before any attempt to create a user account has been made - clear form"; "error"/"success": outcome of sugnup process - toast, redirect, reset form, etc; NB In addition to these states we also have a SEPERATE "pending" state returned by the useActionHook
-  status?:   number;                             //=> HTTP status code returned by the server (optional since pre-flight checks may preclude a server response)
+  status?:  number;                              //=> HTTP status code returned by the server (optional since pre-flight checks may preclude a server response)
   message:  string;                              //=> Optional message to be displayed in the toast notification
-  data: any;                                     //=> Data returned by the server (if any)
+  data:     any;                                 //=> Data returned by the server (if any)
 } 
 

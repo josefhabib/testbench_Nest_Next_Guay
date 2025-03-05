@@ -50,33 +50,30 @@
  */
 
 import { get } from "@/utils/custom_fetch";
+import { IUserDetails } from "@/interfaces_types/user-details.interface";
 
-export interface IWhoamiResponse {
-  user?: {
-    // id: number;
-    email: string;
-  },
-  status: "loggedIn" | "notLoggedIn" | "unknown";
-}
+export default async function whoami(): Promise<IUserDetails> {
 
-export default async function whoami(): Promise<IWhoamiResponse> {
-
+  // --- Send the request
   const url = `${process.env.NESTJS_CORE_URL}/auth/whoami`;
   const response = await get(url); 
   const responseBody = await response.json();
-  if (response.status >= 200 && response.status < 300) {
-    const status = "loggedIn";
-    const user = {
-      id: responseBody.payload.user.id, 
-      email : responseBody.payload.user.email
-    };
-
-    return { status, user };
-  } else if (responseBody.status === 401) {
-    return { status: "notLoggedIn" };
-  } else {
-    return { status: "unknown" };
+  
+  // --- Handle errors
+  if ((response.status <= 200) && (response.status < 300)) { // If the response status is not 2xx (i.e. the user is not logged in or an error has occurred)
+    return (
+      {
+        id: undefined,
+        email: undefined
+      }
+    )
   }
+  
+  // --- Handle success
+  return ({
+    id: responseBody.payload.user.id, 
+    email : responseBody.payload.user.email
+  })
 }
 
 

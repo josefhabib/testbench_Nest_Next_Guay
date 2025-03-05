@@ -14,12 +14,14 @@
 
 import { useContext } from 'react';
 import { AuthContext } from '@/contexts/auth-context';
+import { UserContext } from '@/contexts/user-context';
 import LogoutButton from '@/components/molecules/logout-button';
 
 const TestPage = () => {
 
   //--- Get the user's authentication status from the AuthContext
   const authStatus = useContext(AuthContext);
+  const userDetails = useContext(UserContext);
   //---
 
   // Check if authStatus.authenticated exists
@@ -33,22 +35,37 @@ const TestPage = () => {
   
   // Render screen based on authentication status
   if (authStatus.authenticated) {
-    return (
-      <div style={{ margin: '20px', padding: '20px' }}> 
-        Home Sweet Home
-        <br /> <br /> <br /> 
-        Welcome!
-        <br /> <br /> <br /> 
-        <LogoutButton />
-      </div>
-    );
+    if (userDetails.id === undefined) {
+      return (
+        <div style={{ margin: '20px', padding: '20px' }}> 
+          Home Sweet Home
+          <br /> <br /> <br /> 
+          Should never be in here: You are logged in but your user details are not available.
+          <br /> <br /> <br />
+        </div>
+      );
+    }
+    else {
+      return (
+        <div style={{ margin: '20px', padding: '20px' }}> 
+          Home Sweet Home
+          <br /> <br /> <br /> 
+          Welcome!
+          <br /> 
+          <br /> Your user ID is: {userDetails.id}
+          <br /> Your email is: {userDetails.email}
+          <br /> <br /> <br /> 
+          <LogoutButton />
+        </div>
+      );
+    };
   }
   else if (!authStatus.authenticated) {
     return (
       <div style={{ margin: '20px', padding: '20px' }}> 
         Home Sweet Home
         <br /> <br /> <br /> 
-        Please log in to access the rest of the site (this should never appear as it should be automated using middleware).
+        Should never be in here: Please log in to access the rest of the site (this should never appear as it should be automated using middleware).
         <br /> <br /> <br />
       </div>
     );
