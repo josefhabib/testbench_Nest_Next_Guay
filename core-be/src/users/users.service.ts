@@ -26,6 +26,7 @@ export class UsersService {
       if (error.code === 'P2002') { // Prisma unique constraint violation error code
         throw new UnprocessableEntityException('A user with this email already exists.');
       }
+      console.log("ERROR IN CreateUser() METHOD OF USERS SERVICE: ", error);
       throw error;
     }
   }

@@ -1,10 +1,12 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import * as cors from 'cors';
 import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Logger } from 'nestjs-pino';
 import * as dotenv from 'dotenv';
 import * as path from 'path';
+import * as cookieParser from 'cookie-parser';
 
 // Load environment variables from the specified .env file
 const envFilePath = process.env.ENV_FILE_PATH || path.resolve(__dirname, '../../.env');
@@ -34,7 +36,10 @@ async function bootstrap() {
   app.useLogger(logger);
   
   // - Validation (and any other global) pipes
-  app.useGlobalPipes(new ValidationPipe({ whitelist: true } )); 
+  app.useGlobalPipes(new ValidationPipe({ whitelist: true } ));
+  
+  // - Add CookieParser Middleware (for parsing cookies in incoming requests - sets content of req.cookies in request object)
+  app.use(cookieParser());
 
   // - Add ConfigService (dynamically set run-config specific parameters from .env file)
   const configService = app.get(ConfigService);

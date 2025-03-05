@@ -1,21 +1,20 @@
 import { Injectable } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 
-
 @Injectable()
-export class LocalAuthGuard extends AuthGuard('my-local-strategy') {}
+export class JwtAuthGuard extends AuthGuard('my-jwt-strategy') {}
 
-// -- Logging version of the LocalAuthGuard --
+// -- Logging version of the JwtAuthGuard --
 //
-// import { Injectable, ExecutionContext, UnauthorizedException, Logger } from "@nestjs/common";
-// import { AuthGuard } from "@nestjs/passport";
-//
+// import { Injectable, ExecutionContext, UnauthorizedException, Logger } from '@nestjs/common';
+// import { AuthGuard } from '@nestjs/passport';
+// 
 // @Injectable()
-// export class LocalAuthGuard extends AuthGuard('my-local-strategy') {
-//   private readonly logger = new Logger(LocalAuthGuard.name);
+// export class JwtAuthGuard extends AuthGuard('my-jwt-strategy') {
+//   private readonly logger = new Logger(JwtAuthGuard.name);
 //
 //   canActivate(context: ExecutionContext) {
-//     this.logger.log('NestJS Logger AuthGuard: LocalAuthGuard canActivate called');
+//     this.logger.log('NestJS Logger AuthGuard: JwtAuthGuard canActivate called');
 //     const request = context.switchToHttp().getRequest();
 //     this.logger.log(`NestJS Logger AuthGuard: Request cookies: ${JSON.stringify(request.cookies)}`);
 //     return super.canActivate(context);

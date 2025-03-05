@@ -13,6 +13,8 @@
         "run",
         "start:debug"
       ],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "openOnSessionStart",
       "skipFiles": [
         "<node_internals>/**"
       ]

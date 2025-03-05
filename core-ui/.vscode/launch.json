@@ -2,23 +2,72 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Next.js: Debug Server",
+      "name": "Official Next.js: debug server-side",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "npm run dev",
+      "envFile": "${workspaceFolder}/../.env.development.local"
+    },
+    {
+      "name": "Official Next.js: debug client-side",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:3000"
+    },
+    {
+      "name": "Official Next.js: debug client-side (Firefox)",
+      "type": "firefox",
+      "request": "launch",
+      "url": "http://localhost:3000",
+      "reAttach": true,
+      "pathMappings": [
+        {
+          "url": "webpack://_N_E",
+          "path": "${workspaceFolder}"
+        }
+      ]
+    },
+    {
+      "name": "(default) Official Next.js: debug full stack",
       "type": "node",
       "request": "launch",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev"],
+      "program": "${workspaceFolder}/node_modules/.bin/next",
+      "runtimeArgs": ["--inspect"],
+      "skipFiles": ["<node_internals>/**"],
+      "serverReadyAction": {
+        "action": "debugWithChrome",
+        "killOnServerStop": true,
+        "pattern": "- Local:.+(https?://.+)",
+        "uriFormat": "%s",
+        "webRoot": "${workspaceFolder}"
+      },
+      "envFile": "${workspaceFolder}/../.env.development.local"
+    },
+    {
+      "name": "Custom Debug NextJS Server",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["--inspect", "node_modules/next/dist/bin/next", "dev"],
       "console": "integratedTerminal",
-      "internalConsoleOptions": "neverOpen",
+      "internalConsoleOptions": "openOnSessionStart",
       "skipFiles": ["<node_internals>/**"]
     },
     {
-      "name": "Next.js: Debug Client",
+      "name": "Custom Debug NextJS Client",
       "type": "chrome",
       "request": "launch",
-      "url": "http://localhost:3003",
+      "url": "http://localhost:3000",
       "webRoot": "${workspaceFolder}",
       "sourceMaps": true,
-      "skipFiles": ["<node_internals>/**"]
+      "skipFiles": ["<node_internals>/**", "${workspaceFolder}/node_modules/**"]
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Custom - Next.js: Debug Server & Client",
+      "configurations": ["Custom Debug NextJS Server", "Custom Debug NextJS Client"],
+      "stopAll": true
     }
   ]
 }

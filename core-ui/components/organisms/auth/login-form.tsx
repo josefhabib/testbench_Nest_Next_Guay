@@ -1,20 +1,22 @@
 import Link from "next/link"
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/atoms/button"
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+} from "@/components/atoms/card"
+import { Input } from "@/components/atoms/input"
+import { Label } from "@/components/atoms/label"
+import { Loader2 } from "lucide-react";
 
-// TODO: Implement the login functionality; 
-// TODO: Impelement signin fail message;
+interface ILoginFormProps {
+  isPending: boolean;
+}
 
-export function LoginForm() {
+export function LoginForm({ isPending }: ILoginFormProps) {
   return (
     <Card className="mx-auto max-w-sm">
       <CardHeader>
@@ -29,8 +31,11 @@ export function LoginForm() {
             <Label htmlFor="email">Email</Label>
             <Input
               id="email"
+              name="email"
               type="email"
               placeholder="m@example.com"
+              defaultValue={"dummy1@email.com"}//TODO: REMOVE
+              disabled={isPending}
               required
             />
           </div>
@@ -41,10 +46,21 @@ export function LoginForm() {
                 Forgot your password?
               </Link>
             </div>
-            <Input id="password" type="password" required />
+            <Input 
+              id="password"
+              name="password" 
+              type="password" 
+              disabled={isPending}
+              defaultValue={"a342WR05±!£ada;as@£$234d"}//TODO: REMOVE
+              required />
           </div>
-          <Button type="submit" className="w-full">
-            Login
+          <Button 
+            type="submit" 
+            className="w-full">
+            {isPending && (
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            )}
+            {isPending ? "Logging In..." : "Log In"}
           </Button>
         </div>
         <div className="mt-4 text-center text-sm">
