@@ -26,12 +26,12 @@
 
 
 import { useActionState, useEffect } from "react";
-import { SignupForm } from "../../../components/organisms/signup-form";
+import { SignupForm } from "../../../components/organisms/auth/signup-form";
 import { Toaster } from "@/components/atoms/toaster" // TODO: Move to layout?
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from 'next/navigation';
 import createUser from "../../../server-actions/auth/action_create-user";
-import { ICreateUserOutput } from "@/Interfaces/create-user-output.interface";
+import { ICreateUserOutput } from "@/interfaces_types/create-user-output.interface";
 
 export default function Page() {
 

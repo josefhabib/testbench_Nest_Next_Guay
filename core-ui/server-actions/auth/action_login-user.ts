@@ -28,7 +28,7 @@
  */
 
 import { post } from "@/utils/custom_fetch";
-import { ILoginUserOutput } from "@/Interfaces/login-user-output.interface";
+import { ILoginUserOutput } from "@/interfaces_types/login-user-output.interface";
 import { cookies } from "next/headers";
 import { jwtDecode } from "jwt-decode";
 

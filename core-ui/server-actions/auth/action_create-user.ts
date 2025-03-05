@@ -65,7 +65,7 @@
  */
 
 import { post } from "@/utils/custom_fetch";
-import { ICreateUserOutput } from "@/Interfaces/create-user-output.interface";
+import { ICreateUserOutput } from "@/interfaces_types/create-user-output.interface";
 
 export default async function createUser(_prevState: any, formData: FormData): Promise<ICreateUserOutput> {
 

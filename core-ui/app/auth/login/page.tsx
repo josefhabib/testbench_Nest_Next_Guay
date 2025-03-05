@@ -1,12 +1,12 @@
 "use client";
 
 import { useActionState, useEffect } from "react";
-import { LoginForm } from "@/components/organisms/login-form"
+import { LoginForm } from "@/components/organisms/auth/login-form"
 import { Toaster } from "@/components/atoms/toaster" // TODO: Move to layout?
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from 'next/navigation';
 import { logInUser } from "../../../server-actions/auth/action_login-user";
-import { ILoginUserOutput } from "@/Interfaces/login-user-output.interface";
+import { ILoginUserOutput } from "@/interfaces_types/login-user-output.interface";
 
 export default function Page() {
 

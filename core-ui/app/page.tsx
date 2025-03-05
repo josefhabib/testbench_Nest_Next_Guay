@@ -1,49 +1,24 @@
-import LogoutButton from '@/components/molecules/logout-button';
-import whoami from '@/server-actions/auth/action_whoami';
-import { IWhoamiResponse } from '@/server-actions/auth/action_whoami';
+/**
+ * @fileoverview This file defines the LandingPage component (implemented as a server component).
+ * 
+ * @motivation
+ * 1. Flexibility: Implementing the LandingPage as a server component allows flexibility in what is stored as the landing page.
+ * 2. Server Component Requirement: Ensuring that both layout.tsx and page.tsx are server components allows the import of both server and client components. 
+ *    If the page were defined as a client component, it would prevent the import of server components, which is not desirable.
+ * 
+ * @returns {JSX.Element} The rendered TestPage component.
+ */
 
-const HomePage = async () => {
+"use server" 
 
-  const user:IWhoamiResponse = await whoami();
+import TestPage from '@/components/pages/test-page_auth'; // Client Component (reactive)
 
-  if (user.status === "notLoggedIn") {
-    return (
-      <div style={{ margin: '20px', padding: '20px' }}> 
-        Home Sweet Home
-        <br /> <br /> <br /> 
-        Please log in to access the rest of the site.
-      </div>
-    );
-  }
-  else if (user.status === "unknown") {
-    return (
-      <div style={{ margin: '20px', padding: '20px' }}> 
-        Home Sweet Home
-        <br /> <br /> <br /> 
-        An error determining your authentication status has occurred. Please try again later.
-      </div>
-    );
-  }
-  else if (user.status === "loggedIn") {
-    return (
-      <div style={{ margin: '20px', padding: '20px' }}> 
-        Home Sweet Home
-        <br /> <br /> <br /> 
-        Welcome {user.user!.email}!
-        <br /> <br /> <br /> 
-        <LogoutButton />
-      </div>
-    );
-  }
-  else {
-    return (
-      <div style={{ margin: '20px', padding: '20px' }}> 
-        Home Sweet Home
-        <br /> <br /> <br /> 
-        An unknown has occurred. Please try again later.
-      </div>
-    );
-  }
+const LandingPage = async () => {
+
+  // --- Render the page
+  return (
+    <TestPage />
+  );
 }
 
-export default HomePage;
+export default LandingPage;
