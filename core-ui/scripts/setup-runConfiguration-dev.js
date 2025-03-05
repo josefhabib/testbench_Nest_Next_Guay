@@ -11,6 +11,7 @@
 
 import dotenv from 'dotenv';
 import { exec } from 'child_process';
+import path from 'path';
 
 console.log("Starting Next.js server in Development mode (via setup-runConfiguration-dev.js)");
 
@@ -23,11 +24,14 @@ if (!port) {
   console.error('The port number could not be extracted from the .env file');
   process.exit(1);
 } else {
-  console.log("Evironment variables loaded & set");
+  console.log("Environment variables loaded & set");
 }
 
+// Resolve the path to the local next binary
+const nextPath = path.resolve('node_modules', '.bin', 'next');
+
 // Run the NextJS app (forcing a specific Node.js version)
-const command = `npx node@21.1.0 next dev -p ${port}`;
+const command = `npx node@21.1.0 ${nextPath} dev -p ${port}`;
 exec(command, (error, stdout, stderr) => {
   if (error) {
     console.error(`Error: ${error.message}`);

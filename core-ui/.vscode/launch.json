@@ -44,7 +44,7 @@
       "envFile": "${workspaceFolder}/../.env.development.local"
     },
     {
-      "name": "Custom Debug-Next.js: Server",
+      "name": "Custom Debug NextJS Server",
       "type": "node",
       "request": "launch",
       "runtimeExecutable": "node",
@@ -54,7 +54,7 @@
       "skipFiles": ["<node_internals>/**"]
     },
     {
-      "name": "Custom Debug-Next.js: Client",
+      "name": "Custom Debug NextJS Client",
       "type": "chrome",
       "request": "launch",
       "url": "http://localhost:3000",
@@ -66,9 +66,8 @@
   "compounds": [
     {
       "name": "Custom - Next.js: Debug Server & Client",
-      "configurations": ["Custom Debug-Next.js: Server", "Custom Debug-Next.js: Client"],
-      // "preLaunchTask": "Wait for Server", // (see ./tasks.json)
-      "stopAll": true // Optional: Stop all configurations when stopping the debugger
+      "configurations": ["Custom Debug NextJS Server", "Custom Debug NextJS Client"],
+      "stopAll": true
     }
   ]
 }

@@ -11,6 +11,7 @@
 
 import dotenv from 'dotenv';
 import { exec } from 'child_process';
+import path from 'path';
 
 // Load the .env file
 dotenv.config({ path: '../.env' });
@@ -24,7 +25,7 @@ if (!port) {
 }
 
 // Run the NextJS app (forcing a specific Node.js version)
-const command = `npx -p node@21.1.0 next dev -p ${port}`;
+const command = `npx node@21.1.0 ${nextPath} dev -p ${port}`;
 exec(command, (error, stdout, stderr) => {
   if (error) {
     console.error(`Error: ${error.message}`);
